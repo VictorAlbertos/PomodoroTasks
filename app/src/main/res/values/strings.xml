@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PomodoroTasks</string>
+    <string name="login_success">Login success!</string>
+    <string name="login_error">Login error!</string>
 </resources>

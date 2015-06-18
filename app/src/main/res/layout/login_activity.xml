@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/app_bar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.pnikosis.materialishprogress.ProgressWheel xmlns:wheel="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/pw_loading"
+            android:layout_width="@dimen/_80dp"
+            android:layout_height="@dimen/_80dp"
+            android:layout_centerInParent="true"
+            wheel:matProg_barColor="@color/red"
+            wheel:matProg_progressIndeterminate="true" />
+    </RelativeLayout>
+
+
+</LinearLayout>
