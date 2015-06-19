@@ -14,6 +14,7 @@ public class LaunchActivity extends AppCompatActivity {
     @Bean protected UserService mUserService;
     @AfterInject protected void init() {
         if (!mUserService.isAuthenticate()) LoginActivity_.intent(this).start();
+        else if (!mUserService.isAccountConfigured()) ConfigActivity_.intent(this).start();
     }
 
 }

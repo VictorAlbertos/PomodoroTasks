@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">PomodoroTasks</string>
+    <string name="connect_with_trello">Connect with Trello</string>
+    <string name="config_account">Config account</string>
     <string name="login_success">Login success!</string>
     <string name="login_error">Login error!</string>
+    <string name="welcome">Welcome a board!</string>
+    <string name="info_config">Please set which list will be the sources of your tasks.</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
+    <string name="board">Board</string>
+    <string name="select_board">Select board</string>
+    <string name="to_do_list">Todo list</string>
+    <string name="select_to_do_list">Select list for todo tasks</string>
+    <string name="doing_list">Doing list</string>
+    <string name="select_doing_list">Select list for doing tasks</string>
+    <string name="done_list">Done list</string>
+    <string name="select_done_list">Select list for done tasks</string>
+    <string name="save">Save</string>
+    <string name="validation_empty_field">Field mandatory</string>
+    <string name="validation_repeated_list">List already selected</string>
+    <string name="settings_saved">Settings saved!</string>
 </resources>

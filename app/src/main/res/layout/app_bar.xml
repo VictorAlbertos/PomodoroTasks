@@ -2,7 +2,7 @@
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@color/red"
     android:layout_height="?attr/actionBarSize"
     android:elevation="@dimen/_4dp">
 
@@ -12,13 +12,13 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/red"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </android.support.v7.widget.Toolbar>
