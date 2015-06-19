@@ -1,5 +1,7 @@
 package activities;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.AfterViews;
@@ -10,12 +12,11 @@ import org.androidannotations.annotations.res.StringRes;
 import utilities.ui.CustomAlert;
 
 @EActivity(R.layout.config_activity)
-public class ConfigActivity extends AppCompatBaseActivity {
-    @StringRes protected String config_account, welcome, info_config;
+public class ConfigActivity extends FragmentActivity {
+    @StringRes protected String welcome, info_config;
     @Bean protected CustomAlert customAlert;
 
     @AfterViews protected void initViews() {
-        super.initViews(config_account);
         customAlert.showOneChoice(this, welcome, info_config);
     }
 

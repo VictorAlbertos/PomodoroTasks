@@ -13,6 +13,6 @@ public class PomodoroApp extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
-        userService.destroySession();
+        //userService.destroySession();
     }
 }

@@ -1,6 +1,7 @@
 package fragments;
 
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
@@ -33,12 +34,15 @@ public class ConfigFragment extends Fragment {
     @Bean protected CustomToast customToast;
     @Bean protected Animations mAnimations;
     @Bean protected UserService userService;
+    @ViewById protected TextView tv_title;
     @ViewById protected ConfigInputView civ_boards, civ_to_do, civ_doing, civ_done;
     @ViewById protected FButton bt_save;
-    @StringRes protected String board, select_board, to_do_list, select_to_do_list,
+    @StringRes protected String config_account, board, select_board, to_do_list, select_to_do_list,
             doing_list, select_doing_list, done_list, select_done_list, settings_saved;
 
     @AfterViews protected void initViews() {
+        tv_title.setText(config_account);
+
         setUpCivInputs();
         populateBoards();
     }

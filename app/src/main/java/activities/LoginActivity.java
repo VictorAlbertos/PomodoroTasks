@@ -1,8 +1,11 @@
 package activities;
 
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
@@ -16,14 +19,16 @@ import services.TrelloApiAuthService;
 import utilities.ui.CustomToast;
 
 @EActivity(R.layout.login_activity)
-public class LoginActivity extends AppCompatBaseActivity {
+public class LoginActivity extends FragmentActivity {
     @ViewById protected WebView web_view;
     @ViewById protected View pw_loading;
+    @ViewById protected Toolbar toolbar;
+    @ViewById protected TextView tv_title;
     @Bean protected CustomToast customToast;
     @StringRes protected String connect_with_trello;
 
     @AfterViews protected void initViews() {
-        super.initViews(connect_with_trello);
+        tv_title.setText(connect_with_trello);
         setUpWebview();
     }
 

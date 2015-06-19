@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/app_bar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/_10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <custom_views.ConfigInputView_
-            android:id="@+id/civ_boards"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_10dp"
+            android:orientation="vertical">
 
-        <custom_views.ConfigInputView_
-            android:id="@+id/civ_to_do"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_10sp" />
+            <custom_views.ConfigInputView_
+                android:id="@+id/civ_boards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <custom_views.ConfigInputView_
-            android:id="@+id/civ_doing"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_10sp" />
+            <custom_views.ConfigInputView_
+                android:id="@+id/civ_to_do"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10sp" />
 
-        <custom_views.ConfigInputView_
-            android:id="@+id/civ_done"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_20dp"
-            android:layout_marginLeft="@dimen/_10dp"
-            android:layout_marginRight="@dimen/_10sp" />
+            <custom_views.ConfigInputView_
+                android:id="@+id/civ_doing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10sp" />
 
-        <info.hoang8f.widget.FButton xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bt_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/save"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            fbutton:buttonColor="@color/red"
-            fbutton:cornerRadius="@dimen/_3dp"
-            fbutton:shadowColor="@color/dark_red"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="@dimen/_3dp" />
+            <custom_views.ConfigInputView_
+                android:id="@+id/civ_done"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_20dp"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:layout_marginRight="@dimen/_10sp" />
 
-    </LinearLayout>
-</ScrollView>
+            <info.hoang8f.widget.FButton xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/bt_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/save"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                fbutton:buttonColor="@color/red"
+                fbutton:cornerRadius="@dimen/_3dp"
+                fbutton:shadowColor="@color/dark_red"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="@dimen/_3dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
