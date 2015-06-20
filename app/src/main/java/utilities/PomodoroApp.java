@@ -9,10 +9,10 @@ import services.UserService;
 
 @EApplication
 public class PomodoroApp extends Application {
-    @Bean protected UserService userService;
+    @Bean protected UserService mUserService;
 
     @Override public void onCreate() {
         super.onCreate();
-        //userService.destroySession();
+        //mUserService.destroySession();
     }
 }

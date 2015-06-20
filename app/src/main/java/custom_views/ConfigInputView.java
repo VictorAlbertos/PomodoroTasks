@@ -23,7 +23,8 @@ import models.BaseModel;
 
 @EViewGroup(R.layout.config_input_view)
 public class ConfigInputView extends FrameLayout implements AdapterView.OnItemSelectedListener {
-    @ViewById protected MaterialSpinner sp_base_model;
+    public final static int DEFAULT_POSITION = -1;
+    @ViewById public MaterialSpinner sp_base_model;
     @ViewById protected View pw_loading;
     private BaseModel mBaseModel;
 
@@ -44,16 +45,32 @@ public class ConfigInputView extends FrameLayout implements AdapterView.OnItemSe
     }
 
     public void clearDataSource() {
-        setDataSource(new ArrayList<BaseModel>());
+        setDataSource(new ArrayList<BaseModel>(), null);
         setEnable(false);
         sp_base_model.setError(null);
     }
 
-    public void setDataSource(List<? extends BaseModel> dataSource) {
-        mBaseModel = null;
+    public void setDataSource(List<? extends BaseModel> dataSource, BaseModel persistedModel) {
+        mBaseModel = persistedModel;
         sp_base_model.setAdapter(mBoardAdapter.init(dataSource));
         sp_base_model.setOnItemSelectedListener(this);
         setStatusLoading(false);
+
+        final int indexPersistedModel = getIndexForBaseModel(dataSource, persistedModel);
+        if (indexPersistedModel != DEFAULT_POSITION) {
+            sp_base_model.setSelection(indexPersistedModel, true);
+        }
+    }
+
+    private int getIndexForBaseModel(List<? extends BaseModel> dataSource, BaseModel persisted) {
+        int position = 1;
+        if (persisted == null) return DEFAULT_POSITION;
+
+        for (BaseModel model : dataSource) {
+            if (model.getId().equals(persisted.getId())) return position;
+            position++;
+        }
+        return DEFAULT_POSITION;
     }
 
     public void setListener(Listener listener) {
@@ -66,14 +83,6 @@ public class ConfigInputView extends FrameLayout implements AdapterView.OnItemSe
 
     public BaseModel getSelected() {
         return mBaseModel;
-    }
-
-    public void setValidationError(String message) {
-        sp_base_model.setError(message);
-    }
-
-    public void cleanValidationError() {
-        sp_base_model.setError(null);
     }
 
     @StringRes protected String validation_empty_field;

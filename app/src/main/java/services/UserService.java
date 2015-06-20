@@ -3,6 +3,7 @@ package services;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import models.Board;
 import models.List;
 import models.User;
 import utilities.Persistence;
@@ -45,11 +46,28 @@ public class UserService {
                     || getUser().getDoneList() != null;
     }
 
-    public void setLists(List toDoList, List doingList, List doneList) {
+    public void configAccount(Board board, List toDoList, List doingList, List doneList) {
+        getUser().setBoard(board);
         getUser().setToDoList(toDoList);
         getUser().setDoingList(doingList);
-        getUser().setDoingList(doneList);
+        getUser().setDoneList(doneList);
         mPersistence.JSONToDisk(mUser, "user");
+    }
+
+    public Board getBoard() {
+        return getUser().getBoard();
+    }
+
+    public List getToDoList() {
+        return getUser().getToDoList();
+    }
+
+    public List getDoingList() {
+        return getUser().getDoingList();
+    }
+
+    public List getDoneList() {
+        return getUser().getDoneList();
     }
 
     private User mUser;

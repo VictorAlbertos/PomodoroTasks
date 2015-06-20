@@ -30,10 +30,10 @@ import utilities.ui.CustomToast;
 
 @EFragment(R.layout.config_fragment)
 public class ConfigFragment extends Fragment {
-    @Bean protected TrelloApiDataService apiDataService;
-    @Bean protected CustomToast customToast;
+    @Bean protected TrelloApiDataService mApiDataService;
+    @Bean protected CustomToast mCustomToast;
     @Bean protected Animations mAnimations;
-    @Bean protected UserService userService;
+    @Bean protected UserService mUserService;
     @ViewById protected TextView tv_title;
     @ViewById protected ConfigInputView civ_boards, civ_to_do, civ_doing, civ_done;
     @ViewById protected FButton bt_save;
@@ -62,13 +62,15 @@ public class ConfigFragment extends Fragment {
 
     private void populateBoards() {
         civ_boards.showLoading();
-        apiDataService.getBoards(new Callback<List<Board>>() {
-            @Override public void success(final List<Board> boards, Response response) {
-                civ_boards.setDataSource(boards);
+        mApiDataService.getBoards(new Callback<List<Board>>() {
+            @Override
+            public void success(final List<Board> boards, Response response) {
+                civ_boards.setDataSource(boards, mUserService.getBoard());
             }
 
-            @Override public void failure(RetrofitError error) {
-                customToast.showToast(error.getMessage());
+            @Override
+            public void failure(RetrofitError error) {
+                mCustomToast.showToast(error.getMessage());
             }
         });
     }
@@ -85,15 +87,17 @@ public class ConfigFragment extends Fragment {
         civ_doing.showLoading();
         civ_done.showLoading();
 
-        apiDataService.getLists(board.getId(), new Callback<List<models.List>>() {
-            @Override public void success(List<models.List> lists, Response response) {
-                civ_to_do.setDataSource(lists);
-                civ_doing.setDataSource(lists);
-                civ_done.setDataSource(lists);
+        mApiDataService.getLists(board.getId(), new Callback<List<models.List>>() {
+            @Override
+            public void success(List<models.List> lists, Response response) {
+                civ_to_do.setDataSource(lists, mUserService.getToDoList());
+                civ_doing.setDataSource(lists, mUserService.getDoingList());
+                civ_done.setDataSource(lists, mUserService.getDoneList());
             }
 
-            @Override public void failure(RetrofitError error) {
-                customToast.showToast(error.getMessage());
+            @Override
+            public void failure(RetrofitError error) {
+                mCustomToast.showToast(error.getMessage());
             }
         });
     }
@@ -105,9 +109,10 @@ public class ConfigFragment extends Fragment {
             return;
         }
 
+        Board board = (Board) civ_boards.getSelected();
         models.List toDoList = (models.List) civ_to_do.getSelected();
-        models.List doingList = (models.List) civ_to_do.getSelected();
-        models.List doneList = (models.List) civ_to_do.getSelected();
+        models.List doingList = (models.List) civ_doing.getSelected();
+        models.List doneList = (models.List) civ_done.getSelected();
 
         if (civ_doing.validationIsIdRepeated(toDoList.getId()) ||
                 civ_done.validationIsIdRepeated(toDoList.getId(), doingList.getId())) {
@@ -115,8 +120,8 @@ public class ConfigFragment extends Fragment {
             return;
         }
 
-        userService.setLists(toDoList, doingList, doneList);
-        customToast.showToast(settings_saved);
+        mUserService.configAccount(board, toDoList, doingList, doneList);
+        mCustomToast.showToast(settings_saved);
 
         if (getActivity() instanceof ConfigActivity)
             MainActivity_.intent(getActivity()).start();

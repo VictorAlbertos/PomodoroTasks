@@ -2,6 +2,7 @@ package models;
 
 public class User {
     private String token;
+    private Board board;
     private List toDoList, doingList, doneList;
 
     public String getToken() {
@@ -14,6 +15,14 @@ public class User {
 
     public List getToDoList() {
         return toDoList;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public void setToDoList(List toDoList) {
