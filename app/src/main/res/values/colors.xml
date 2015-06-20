@@ -6,6 +6,7 @@
     <color name="gray">#7f7f7f</color>
     <color name="light_gray">#f3f3f3</color>
     <color name="white">#ffffff</color>
+    <color name="white_translucent">#80ffffff</color>
 
     <color name="background">@color/white</color>
     <color name="texts">@color/gray</color>

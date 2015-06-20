@@ -10,10 +10,10 @@
         android:id="@+id/pst_lists"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/green"
-        app:pstsIndicatorColor="@color/red"
+        android:background="@color/red"
+        app:pstsIndicatorColor="@color/white"
         app:pstsShouldExpand="true"
-        app:pstsTabTextColor="@color/white" />
+        app:pstsTabTextColor="@drawable/color_tab_text" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_lists"

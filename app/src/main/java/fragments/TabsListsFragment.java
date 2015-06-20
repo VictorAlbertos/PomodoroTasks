@@ -19,10 +19,10 @@ public class TabsListsFragment extends Fragment {
     @ViewById protected TextView tv_title;
     @ViewById protected PagerSlidingTabStrip pst_lists;
     @ViewById protected ViewPager vp_lists;
-    @StringRes protected String list_tasks;
+    @StringRes protected String app_name;
 
     @AfterViews protected void initViews() {
-        tv_title.setText(list_tasks);
+        tv_title.setText(app_name);
         vp_lists.setAdapter(new ListsFragmentAdapter(getActivity(), getChildFragmentManager()));
         pst_lists.setViewPager(vp_lists);
     }

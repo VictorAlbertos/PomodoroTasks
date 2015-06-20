@@ -20,6 +20,5 @@
     <string name="validation_empty_field">Field mandatory</string>
     <string name="validation_repeated_list">List already selected</string>
     <string name="settings_saved">Settings saved!</string>
-    <string name="list_tasks">Lists of tasks</string>
 </resources>
 
