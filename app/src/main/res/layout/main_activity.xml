@@ -11,14 +11,11 @@
     sothree:umanoShadowHeight="@dimen/_4dp">
 
     <!-- MAIN CONTENT -->
-    <LinearLayout
+    <fragment
+        android:id="@+id/tabs_lists_fragment"
+        android:name="fragments.TabsListsFragment_"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/app_bar" />
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <!-- SLIDING LAYOUT -->
     <fragment

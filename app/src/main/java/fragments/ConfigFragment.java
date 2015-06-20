@@ -75,6 +75,11 @@ public class ConfigFragment extends Fragment {
         });
     }
 
+    //Handled its opacity from MainActivity onPanelSlide
+    /*public Toolbar getToolbar() {
+        return (Toolbar) getView().findViewById(R.id.toolbar);
+    }*/
+
     private void populateLists(BaseModel board) {
         if (board == null) {
             civ_to_do.clearDataSource();
