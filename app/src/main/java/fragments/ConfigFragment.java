@@ -44,7 +44,7 @@ public class ConfigFragment extends Fragment {
         tv_title.setText(config_account);
 
         setUpCivInputs();
-        populateBoards();
+        populateInputs();
     }
 
     private void setUpCivInputs() {
@@ -60,7 +60,7 @@ public class ConfigFragment extends Fragment {
         civ_done.setUp(done_list, select_done_list);
     }
 
-    private void populateBoards() {
+    public void populateInputs() {
         civ_boards.showLoading();
         mApiDataService.getBoards(new Callback<List<Board>>() {
             @Override
