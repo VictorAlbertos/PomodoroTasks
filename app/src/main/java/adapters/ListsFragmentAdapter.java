@@ -13,8 +13,8 @@ import fragments.ListDoneFragmentList_;
 import fragments.ListTodoFragmentList_;
 
 public class ListsFragmentAdapter extends FragmentPagerAdapter {
-    public static final int NUM_ITEMS = 3;
-    private static final int POSITION_TODO = 0, POSITION_DOING = 1;
+    public static final int NUM_ITEMS = 3, POSITION_DOING = 1;
+    private static final int POSITION_TODO = 0;
     private Resources mResources;
 
     public ListsFragmentAdapter(Context context, FragmentManager fragmentManager) {

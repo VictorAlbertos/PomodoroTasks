@@ -1,0 +1,5 @@
+package utilities;
+
+public enum  EventTask {
+    TABS_LISTS_FRAGMENT_MOVE_FROM_TODO_TO_DOING_LIST, TABS_LISTS_UPDATE_DATA_SOURCE;
+}

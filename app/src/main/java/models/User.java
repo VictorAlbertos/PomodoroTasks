@@ -1,9 +1,12 @@
 package models;
 
+import java.util.ArrayList;
+
 public class User {
     private String token;
     private Board board;
     private List toDoList, doingList, doneList;
+    private java.util.List<DoingCard> doingCards = new ArrayList<>();
 
     public String getToken() {
         return token;
@@ -43,5 +46,9 @@ public class User {
 
     public void setDoneList(List doneList) {
         this.doneList = doneList;
+    }
+
+    public java.util.List<DoingCard> getDoingCards() {
+        return doingCards;
     }
 }

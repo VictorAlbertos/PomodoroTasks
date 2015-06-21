@@ -16,12 +16,14 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.List;
 
 import adapters.CardsRecyclerViewAdapter;
+import de.greenrobot.event.EventBus;
 import models.Card;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import services.TrelloApiDataService;
 import services.UserService;
+import utilities.EventTask;
 import utilities.ui.CustomToast;
 
 @EFragment
@@ -35,6 +37,7 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     @Bean protected CardsRecyclerViewAdapter adapter;
 
     @AfterViews protected void initViews() {
+        EventBus.getDefault().register(this);
         setUpRecyclerView();
         setUpRefreshLayout();
         populateCards(false);
@@ -75,8 +78,12 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     @Override public int getIdResource() {
         return R.layout.card_item;
     }
-
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {}
     protected abstract String getIdList();
     protected abstract String getNameList();
+
+    public void onEvent(EventTask eventTask) {
+        if (eventTask != EventTask.TABS_LISTS_UPDATE_DATA_SOURCE) return;
+        populateCards(false);
+    }
 }

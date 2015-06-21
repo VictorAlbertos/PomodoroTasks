@@ -54,4 +54,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.jpardogo.materialtabstrip:library:1.1.0'
     compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

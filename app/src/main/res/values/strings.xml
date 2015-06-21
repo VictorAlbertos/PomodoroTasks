@@ -23,5 +23,6 @@
     <string name="error_connection">Error connection. Please try again later.</string>
     <string name="empty_list">There are not cards in __</string>
     <string name="start">Start</string>
+    <string name="card_moved_to_doing_list">Card moved to doing list!</string>
 </resources>
 

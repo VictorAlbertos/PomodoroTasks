@@ -5,6 +5,7 @@ import org.androidannotations.annotations.EBean;
 
 import models.Board;
 import models.Card;
+import models.DoingCard;
 import models.List;
 import models.User;
 import utilities.Persistence;
@@ -80,6 +81,11 @@ public class UserService {
             return mUser;
 
         return mUser = new User();
+    }
+
+
+    public void addDoingCard(DoingCard doingCard) {
+        getUser().getDoingCards().add(doingCard);
     }
 
     public void startNewDoingTask(Card card) {

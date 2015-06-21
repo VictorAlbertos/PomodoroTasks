@@ -46,7 +46,7 @@ public class TrelloApiDataService {
         restApi.getCards(id_list, trello_key, userService.getToken(), "name", "idList", response);
     }
 
-    public void moveCardFromTodoToDoing(final Card card, final Callback<Card> createCallback) {
+    public void moveCardFromTodoToDoingList(final Card card, final Callback<Card> createCallback) {
         final Callback<Response> deleteCallback = new Callback<Response>() {
             @Override public void success(Response response, Response response2) {
                 String idList = userService.getDoingList().getId();
