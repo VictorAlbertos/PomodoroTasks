@@ -20,5 +20,8 @@
     <string name="validation_empty_field">Field mandatory</string>
     <string name="validation_repeated_list">List already selected</string>
     <string name="settings_saved">Settings saved!</string>
+    <string name="error_connection">Error connection. Please try again later.</string>
+    <string name="empty_list">There are not cards in __</string>
+    <string name="start">Start</string>
 </resources>
 

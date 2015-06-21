@@ -1,6 +1,7 @@
 package fragments;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
@@ -34,6 +35,7 @@ public class ConfigFragment extends Fragment {
     @Bean protected CustomToast mCustomToast;
     @Bean protected Animations mAnimations;
     @Bean protected UserService mUserService;
+    @ViewById public Toolbar toolbar;
     @ViewById protected TextView tv_title;
     @ViewById protected ConfigInputView civ_boards, civ_to_do, civ_doing, civ_done;
     @ViewById protected FButton bt_save;
@@ -63,14 +65,12 @@ public class ConfigFragment extends Fragment {
     public void populateInputs() {
         civ_boards.showLoading();
         mApiDataService.getBoards(new Callback<List<Board>>() {
-            @Override
-            public void success(final List<Board> boards, Response response) {
+            @Override public void success(final List<Board> boards, Response response) {
                 civ_boards.setDataSource(boards, mUserService.getBoard());
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                mCustomToast.showToast(error.getMessage());
+            @Override public void failure(RetrofitError error) {
+                mCustomToast.showErrorConnection();
             }
         });
     }
@@ -93,16 +93,14 @@ public class ConfigFragment extends Fragment {
         civ_done.showLoading();
 
         mApiDataService.getLists(board.getId(), new Callback<List<models.List>>() {
-            @Override
-            public void success(List<models.List> lists, Response response) {
+            @Override public void success(List<models.List> lists, Response response) {
                 civ_to_do.setDataSource(lists, mUserService.getToDoList());
                 civ_doing.setDataSource(lists, mUserService.getDoingList());
                 civ_done.setDataSource(lists, mUserService.getDoneList());
             }
 
-            @Override
-            public void failure(RetrofitError error) {
-                mCustomToast.showToast(error.getMessage());
+            @Override public void failure(RetrofitError error) {
+                mCustomToast.showErrorConnection();
             }
         });
     }

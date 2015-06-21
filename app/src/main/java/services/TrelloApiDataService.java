@@ -8,6 +8,7 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.List;
 
 import models.Board;
+import models.Card;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.http.GET;
@@ -37,6 +38,10 @@ public class TrelloApiDataService {
         restApi.getLists(id_board, trello_key, userService.getToken(), "name", "idBoard", response);
     }
 
+    public void getCards(String id_list, Callback<List<Card>> response) {
+        restApi.getCards(id_list, trello_key, userService.getToken(), "name", "idList", response);
+    }
+
     private interface TrelloRestApi {
         @GET("/members/me/boards")
         void getBoards(
@@ -54,6 +59,16 @@ public class TrelloApiDataService {
                 @Query("fields") String name,
                 @Query("fields") String idBoard,
                 Callback<List<models.List>> response
+        );
+
+        @GET("/lists/{id_list}/cards")
+        void getCards(
+                @Path("id_list") String id_list,
+                @Query("key") String key,
+                @Query("token") String token,
+                @Query("fields") String name,
+                @Query("fields") String idList,
+                Callback<List<Card>> response
         );
     }
 }

@@ -23,7 +23,10 @@ public class TabsListsFragment extends Fragment {
 
     @AfterViews protected void initViews() {
         tv_title.setText(app_name);
+
+        vp_lists.setOffscreenPageLimit(ListsFragmentAdapter.NUM_ITEMS);
         vp_lists.setAdapter(new ListsFragmentAdapter(getActivity(), getChildFragmentManager()));
+
         pst_lists.setViewPager(vp_lists);
     }
 
