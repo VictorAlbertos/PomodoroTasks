@@ -4,6 +4,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import models.Board;
+import models.Card;
 import models.List;
 import models.User;
 import utilities.Persistence;
@@ -79,5 +80,11 @@ public class UserService {
             return mUser;
 
         return mUser = new User();
+    }
+
+    public void startNewDoingTask(Card card) {
+        //remove from todoList
+        //add to doingList
+        //persits
     }
 }

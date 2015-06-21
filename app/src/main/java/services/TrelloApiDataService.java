@@ -11,7 +11,11 @@ import models.Board;
 import models.Card;
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -42,6 +46,29 @@ public class TrelloApiDataService {
         restApi.getCards(id_list, trello_key, userService.getToken(), "name", "idList", response);
     }
 
+    public void moveCardFromTodoToDoing(final Card card, final Callback<Card> createCallback) {
+        final Callback<Response> deleteCallback = new Callback<Response>() {
+            @Override public void success(Response response, Response response2) {
+                String idList = userService.getDoingList().getId();
+                createCard(idList, card.getName(), createCallback);
+            }
+
+            @Override public void failure(RetrofitError error) {
+                createCallback.failure(error);
+            }
+        };
+
+        deleteCard(card.getId(), deleteCallback);
+    }
+    public void deleteCard(String idCard, Callback<Response> callback) {
+        restApi.deleteCard(idCard, trello_key, userService.getToken(), callback);
+    }
+
+    public void createCard(String idList, String name, Callback<Card> callback) {
+        restApi.createCard(idList, name, trello_key, userService.getToken(), "name", "idList", callback);
+    }
+
+
     private interface TrelloRestApi {
         @GET("/members/me/boards")
         void getBoards(
@@ -70,6 +97,29 @@ public class TrelloApiDataService {
                 @Query("fields") String idList,
                 Callback<List<Card>> response
         );
+
+        @POST("/cards")
+        void createCard(
+                @Query("idList") String idList,
+                @Query("name") String name,
+                @Query("key") String key,
+                @Query("token") String token,
+                @Query("fields") String fieldName,
+                @Query("fields") String fieldIdList,
+                Callback<Card> cb
+        );
+
+        @DELETE("/cards/{id}")
+        void deleteCard(
+                @Path("id") String id,
+                @Query("key") String key,
+                @Query("token") String token,
+                Callback<Response> cb
+        );
+    }
+
+    public interface CustomCallback  {
+        void onResponse(boolean success);
     }
 }
 
