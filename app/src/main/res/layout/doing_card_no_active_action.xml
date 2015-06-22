@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_no_active_action"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_10dp">
+
+    <custom_views.ActionCountDownView_
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="@string/performance"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/texts"
+        android:textStyle="italic" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10dp"
+        android:layout_marginRight="@dimen/_10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <custom_views.ActionCountDownView_
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/spent_time"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts" />
+
+            <custom_views.ActionCountDownView_
+                android:id="@+id/tv_n_spent_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <custom_views.ActionCountDownView_
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/pomodoros"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts" />
+
+            <custom_views.ActionCountDownView_
+                android:id="@+id/tv_n_pomodoros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <custom_views.ActionCountDownView_
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/long_breaks"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts" />
+
+            <custom_views.ActionCountDownView_
+                android:id="@+id/tv_n_long_breaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <custom_views.ActionCountDownView_
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/short_breaks"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts" />
+
+            <custom_views.ActionCountDownView_
+                android:id="@+id/tv_n_short_breaks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10dp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <custom_views.ActionCountDownView_
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/what_next"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/texts"
+        android:textStyle="italic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10dp"
+        android:layout_marginRight="@dimen/_10dp"
+        android:orientation="vertical">
+
+
+        <custom_views.ActionCountDownView_
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/spend_another_action"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/texts"
+            android:textStyle="bold" />
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/sp_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            app:ms_alignLabels="false"
+            app:ms_floatingLabelColor="@color/dark_red"
+            app:ms_floatingLabelText="@string/action_selected"
+            app:ms_highlightColor="@color/red"
+            app:ms_hint="@string/select_action_to_spend"
+            app:ms_multiline="true" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/bt_spend_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif"
+            android:text="@string/spend_it"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:buttonColor="@color/red"
+            app:cornerRadius="@dimen/_3dp"
+            app:shadowColor="@color/dark_red"
+            app:shadowEnabled="true"
+            app:shadowHeight="@dimen/_3dp" />
+
+        <custom_views.ActionCountDownView_
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/its_over"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/texts"
+            android:textStyle="bold" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/bt_move_to_done_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/move_to_done_list"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:buttonColor="@color/red"
+            app:cornerRadius="@dimen/_3dp"
+            app:shadowColor="@color/dark_red"
+            app:shadowEnabled="true"
+            app:shadowHeight="@dimen/_3dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/bt_back_to_todo_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/back_to_todo_list"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:buttonColor="@color/red"
+            app:cornerRadius="@dimen/_3dp"
+            app:shadowColor="@color/dark_red"
+            app:shadowEnabled="true"
+            app:shadowHeight="@dimen/_3dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

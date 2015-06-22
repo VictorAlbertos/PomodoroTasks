@@ -45,11 +45,25 @@ public class TrelloApiDataService {
         mRestApi.getCards(id_list, trello_key, mUserService.getToken(), "name", "idList", response);
     }
 
-    public void moveCardFromTodoToDoingList(final Card card, final Callback<Card> createCallback) {
+    public void moveCardToTodoList(final Card card, final Callback<Card> createCallback) {
+        String idList = mUserService.getToDoList().getId();
+        moveCardTo(idList, "", card, createCallback);
+    }
+
+    public void moveCardToDoingList(final Card card, final Callback<Card> createCallback) {
+        String idList = mUserService.getDoingList().getId();
+        moveCardTo(idList, "", card, createCallback);
+    }
+
+    public void moveCardToDoneList(String desc, final Card card, final Callback<Card> createCallback) {
+        String idList = mUserService.getDoneList().getId();
+        moveCardTo(idList, desc, card, createCallback);
+    }
+
+    private void moveCardTo(final String idList, final String desc, final Card card, final Callback<Card> createCallback) {
         final Callback<Response> deleteCallback = new Callback<Response>() {
             @Override public void success(Response response, Response response2) {
-                String idList = mUserService.getDoingList().getId();
-                createCard(idList, card.getName(), createCallback);
+                createCard(idList, card.getName(), desc, createCallback);
             }
 
             @Override public void failure(RetrofitError error) {
@@ -66,8 +80,8 @@ public class TrelloApiDataService {
         mRestApi.deleteCard(idCard, trello_key, mUserService.getToken(), callback);
     }
 
-    public void createCard(String idList, String name, Callback<Card> callback) {
-        mRestApi.createCard(idList, name, trello_key, mUserService.getToken(), "name", "idList", callback);
+    public void createCard(String idList, String name, String desc, Callback<Card> callback) {
+        mRestApi.createCard(idList, name, desc, trello_key, mUserService.getToken(), "name", "idList", callback);
     }
 
     private interface TrelloRestApi {
@@ -103,6 +117,7 @@ public class TrelloApiDataService {
         void createCard(
                 @Query("idList") String idList,
                 @Query("name") String name,
+                @Query("desc") String desc,
                 @Query("key") String key,
                 @Query("token") String token,
                 @Query("fields") String fieldName,

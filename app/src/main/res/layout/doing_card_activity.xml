@@ -6,8 +6,26 @@
 
     <include layout="@layout/app_bar" />
 
-    <custom_views.PomodoroCountDownView_
-        android:id="@+id/tv_countdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:padding="@dimen/_10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/doing_card_active_action" />
+
+            <include layout="@layout/doing_card_no_active_action" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

@@ -7,18 +7,29 @@ import java.util.concurrent.TimeUnit;
 public class DoingCard extends Card {
     private List<Action> actions = new ArrayList<>();
     private Action currentAction;
+    private long timeRemainingWhenThisWasPause;
+    private long aggregatedStopTime;
     private boolean pause;
 
     public DoingCard(Card card){
         this.id = card.getId();
         this.name = card.getName();
         this.idList = card.getIdList();
-        addNewAction(new Action(Action.Type.Pomodoro));
+        addNewAction(Action.Type.Pomodoro);
+    }
+
+    public void resetCurrentAction() {
+        aggregatedStopTime += getRemainingTimeInMilliseconds();
+        currentAction.setStartTimeStamp(System.currentTimeMillis());
     }
 
     public int getIdNotification() {
         String temp = id.replaceAll("[^0-9]+", " ");
         return Integer.valueOf(temp);
+    }
+
+    public boolean isCurrentActionEnd() {
+        return getRemainingTimeInMilliseconds() == 0;
     }
 
     public boolean isPause() {
@@ -27,23 +38,47 @@ public class DoingCard extends Card {
 
     public void setPause(boolean pause) {
         this.pause = pause;
+        if (this.pause) {
+            timeRemainingWhenThisWasPause = getRemainingTimeInMilliseconds();
+        } else {
+            long delta = currentAction.getDuration() - timeRemainingWhenThisWasPause;
+            currentAction.setStartTimeStamp(System.currentTimeMillis() + delta);
+        }
     }
 
-    public int getNPomodoros() {
-        return getNTimes(Action.Type.Pomodoro);
+    public long getTimeRemainingWhenThisWasPause() {
+        return timeRemainingWhenThisWasPause;
     }
 
-    public int getNLongBreaks() {
-        return getNTimes(Action.Type.LongBreak);
+    public String getNPomodoros() {
+        return String.valueOf(getNTimes(Action.Type.Pomodoro));
     }
 
-    public int getNShortBreaks() {
-        return getNTimes(Action.Type.LongBreak);
+    public String getNLongBreaks() {
+        return String.valueOf(getNTimes(Action.Type.LongBreak));
     }
 
-    public void addNewAction(Action action) {
+    public String getNShortBreaks() {
+        return String.valueOf(getNTimes(Action.Type.ShortBreak));
+    }
+
+    public String getSpentTime() {
+        long spentTime = 0;
+
+        for (Action action : actions) {
+            spentTime += action.getDuration();
+        }
+
+        spentTime=+aggregatedStopTime;
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(spentTime),
+                TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
+    }
+
+    public void addNewAction(Action.Type type) {
         if (currentAction != null) actions.add(currentAction);
-        currentAction = action;
+        currentAction = new Action(type);
+        pause = false;
     }
 
     private int getNTimes(Action.Type type) {
@@ -52,14 +87,6 @@ public class DoingCard extends Card {
             if (action.type == type) n++;
         }
         return n;
-    }
-
-    public long getSpentTime() {
-        long spentTime = 0;
-        for (Action action : actions) {
-            spentTime += action.getDuration();
-        }
-        return spentTime;
     }
 
     public long getRemainingTimeInMilliseconds() {
@@ -98,6 +125,10 @@ public class DoingCard extends Card {
 
         public Type getType() {
             return type;
+        }
+
+        public void setStartTimeStamp(long startTimeStamp) {
+            this.startTimeStamp = startTimeStamp;
         }
 
         private long getStartTimeStamp() {

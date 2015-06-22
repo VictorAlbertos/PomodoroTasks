@@ -36,5 +36,24 @@
     <string name="pomodoro">Pomodoro</string>
     <string name="long_break">Long break</string>
     <string name="short_break">Short break</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="move_to_done_list">Move to done list</string>
+    <string name="back_to_todo_list">Back to todo list</string>
+    <string name="spend_another_action">Spend another action</string>
+    <string name="select_action_to_spend">Select action to spend</string>
+    <string name="action_selected">Action selected</string>
+    <string name="spend_it">Spend it!</string>
+    <string name="paused">\n(paused)</string>
+    <string name="task_moved_to_done_list">__ moved to done list</string>
+    <string name="task_moved_to_todo_list">__ moved to todo list</string>
+    <string name="performance">Performance</string>
+    <string name="spent_time">Spent time: </string>
+    <string name="pomodoros">Pomodoros: </string>
+    <string name="long_breaks">Long breaks: </string>
+    <string name="short_breaks">Short breaks: </string>
+    <string name="what_next">What's next?</string>
+    <string name="its_over">It's over</string>
 </resources>
 

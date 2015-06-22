@@ -21,8 +21,8 @@ public class ScheduleNotifications {
 
 
     public void setFor(DoingCard doingCard) {
-        notifications.cancelIfNeeded(doingCard);
-        if (doingCard.isPause()) return;
+        notifications.cancelLastNotificationFor(doingCard);
+        if (doingCard.isPause() || doingCard.isCurrentActionEnd()) return;
 
         Intent alertIntent = new Intent(mApp, PomodoroBroadcastReceiver_.class);
 

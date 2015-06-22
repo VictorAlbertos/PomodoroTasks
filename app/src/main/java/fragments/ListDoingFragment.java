@@ -1,5 +1,7 @@
 package fragments;
 
+import android.view.View;
+
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.EFragment;
@@ -8,10 +10,12 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.ArrayList;
 import java.util.List;
 
+import activities.DoingCardActivity_;
 import adapters.CardsRecyclerViewAdapter;
-import custom_views.PomodoroCountDownView;
+import custom_views.ActionCountDownView;
 import models.Card;
 import models.DoingCard;
+import utilities.notifications.ScheduleNotifications;
 
 @EFragment(R.layout.list_fragment)
 public class ListDoingFragment extends ListBaseFragment {
@@ -26,7 +30,7 @@ public class ListDoingFragment extends ListBaseFragment {
     }
 
     @Override public int getIdResource() {
-        return R.layout.card_doing_item;
+        return R.layout.doing_card_item;
     }
 
     /**
@@ -50,9 +54,19 @@ public class ListDoingFragment extends ListBaseFragment {
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card candidate) {
         super.onInflate(viewHolder, candidate);
 
-        DoingCard doingCard = (DoingCard) candidate;
+        final DoingCard doingCard = (DoingCard) candidate;
 
-        PomodoroCountDownView tv_time_running = (PomodoroCountDownView) viewHolder.root.findViewById(R.id.tv_time_running);
+        ActionCountDownView tv_time_running = (ActionCountDownView) viewHolder.root.findViewById(R.id.tv_time_running);
         tv_time_running.setCountDownValueInMilliseconds(doingCard);
+
+
+        View bt_watch = viewHolder.root.findViewById(R.id.bt_watch);
+        bt_watch.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                DoingCardActivity_.intent(getActivity())
+                        .extra(ScheduleNotifications.ID_CARD_DOING, doingCard.getId())
+                        .start();
+            }
+        });
     }
 }

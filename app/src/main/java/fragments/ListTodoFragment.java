@@ -32,7 +32,7 @@ public class ListTodoFragment extends ListBaseFragment {
     }
 
     @Override public int getIdResource() {
-        return R.layout.card_todo_item;
+        return R.layout.todo_card_item;
     }
 
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, final Card card) {
@@ -59,7 +59,7 @@ public class ListTodoFragment extends ListBaseFragment {
 
         bt_start.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                mApiDataService.moveCardFromTodoToDoingList(card, moveCallback);
+                mApiDataService.moveCardToDoingList(card, moveCallback);
             }
         });
     }

@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -59,7 +60,7 @@ class PomodoroNotifications {
         callbackOnlyIfCardStillExitsInTrello(doingCard.getId(), callback);
     }
 
-    void cancelIfNeeded(DoingCard doingCard) {
+    void cancelLastNotificationFor(DoingCard doingCard) {
         mNotificationManager.cancel(doingCard.getIdNotification());
     }
 
@@ -77,9 +78,11 @@ class PomodoroNotifications {
     }
 
     private void showNotification(DoingCard doingCard) {
+        Uri sound = Uri.parse("android.resource://" + mApp.getPackageName() + "/" + R.raw.alarm_sound);
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mApp)
                         .setAutoCancel(true)
+                        .setSound(sound)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(doingCard.getName())
                         .setContentText(getTextAlert(doingCard, false));
