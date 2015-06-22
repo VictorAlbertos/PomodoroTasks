@@ -10,6 +10,7 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.hacerapp.pomodorotasks.R;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -32,6 +33,11 @@ class PomodoroNotifications {
     @App protected PomodoroApp mApp;
     @Bean protected UserService mUserService;
     @Bean protected TrelloApiDataService mApiDataService;
+    private NotificationManager mNotificationManager;
+
+    @AfterInject protected void init() {
+        mNotificationManager = (NotificationManager) mApp.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
 
     void sendIfNeeded(Intent intent) {
         String idDoingCard = intent.getExtras().getString(ScheduleNotifications.ID_CARD_DOING);
@@ -51,6 +57,10 @@ class PomodoroNotifications {
         };
 
         callbackOnlyIfCardStillExitsInTrello(doingCard.getId(), callback);
+    }
+
+    void cancelIfNeeded(DoingCard doingCard) {
+        mNotificationManager.cancel(doingCard.getIdNotification());
     }
 
     private void callbackOnlyIfCardStillExitsInTrello(final String idDoingCard, final Runnable callback) {
@@ -75,8 +85,7 @@ class PomodoroNotifications {
                         .setContentText(getTextAlert(doingCard, false));
         builder.setContentIntent(getContentIntentNotification(doingCard));
 
-        NotificationManager notificationManager = (NotificationManager) mApp.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build());
+        mNotificationManager.notify(doingCard.getIdNotification(), builder.build());
     }
 
     private PendingIntent getContentIntentNotification(DoingCard doingCard) {

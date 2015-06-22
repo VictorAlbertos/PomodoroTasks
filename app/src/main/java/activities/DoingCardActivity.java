@@ -1,6 +1,6 @@
 package activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,33 +20,41 @@ import utilities.notifications.ScheduleNotifications;
 import utilities.ui.CustomAlert;
 
 @EActivity(R.layout.doing_card_activity)
-public class DoingCardActivity extends AppCompatActivity {
+public class DoingCardActivity extends Activity {
     @App protected PomodoroApp mApp;
     @Bean protected UserService mUserService;
     @Bean protected CustomAlert mCustomAlert;
+    @Bean protected ScheduleNotifications mScheduleNotifications;
     @ViewById protected PomodoroCountDownView tv_countdown;
     @ViewById protected TextView tv_title;
+    private DoingCard mDoingCard;
 
     @AfterViews protected void initViews() {
         String idDoingCard = getIntent().getExtras().getString(ScheduleNotifications.ID_CARD_DOING);
         if (idDoingCard == null) return;
 
-        DoingCard doingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if(doingCard!= null) populateFields(doingCard);
+        mDoingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
+        if(mDoingCard != null) populateFields();
     }
 
-    private void populateFields(DoingCard doingCard) {
-        tv_countdown.setCountDownValueInMilliseconds(doingCard);
-
+    private void populateFields() {
+        tv_countdown.setCountDownValueInMilliseconds(mDoingCard);
     }
 
     public void fromNotificationAskToSwitchTo(final DoingCard doingCard, String title, String text) {
+        if (doingCard.getId().equals(mDoingCard.getId())) return;
+
         mCustomAlert.showTwoChoices(this, title, text, new MaterialDialog.ButtonCallback() {
             @Override public void onPositive(MaterialDialog dialog) {
-                super.onPositive(dialog);
-                populateFields(doingCard);
+                mScheduleNotifications.setFor(mDoingCard);
+                mDoingCard = doingCard;
             }
         });
+    }
+
+    @Override public void onBackPressed() {
+        mScheduleNotifications.setFor(mDoingCard);
+        super.onBackPressed();
     }
 
     @Override protected void onResume() {
@@ -63,4 +71,5 @@ public class DoingCardActivity extends AppCompatActivity {
         mApp.setCardDoingActivity(null);
         super.onDestroy();
     }
+
 }

@@ -7,12 +7,26 @@ import java.util.concurrent.TimeUnit;
 public class DoingCard extends Card {
     private List<Action> actions = new ArrayList<>();
     private Action currentAction;
+    private boolean pause;
 
     public DoingCard(Card card){
         this.id = card.getId();
         this.name = card.getName();
         this.idList = card.getIdList();
         addNewAction(new Action(Action.Type.Pomodoro));
+    }
+
+    public int getIdNotification() {
+        String temp = id.replaceAll("[^0-9]+", " ");
+        return Integer.valueOf(temp);
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 
     public int getNPomodoros() {

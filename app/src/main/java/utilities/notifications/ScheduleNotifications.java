@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import models.DoingCard;
@@ -16,8 +17,13 @@ import utilities.PomodoroApp;
 public class ScheduleNotifications {
     public static final String ID_CARD_DOING = "id_card_doing";
     @App protected PomodoroApp mApp;
+    @Bean protected PomodoroNotifications notifications;
 
-    public void setAlarm(DoingCard doingCard) {
+
+    public void setFor(DoingCard doingCard) {
+        notifications.cancelIfNeeded(doingCard);
+        if (doingCard.isPause()) return;
+
         Intent alertIntent = new Intent(mApp, PomodoroBroadcastReceiver_.class);
 
         Bundle bundle = new Bundle();
@@ -30,5 +36,4 @@ public class ScheduleNotifications {
                 PendingIntent.getBroadcast(mApp, 1, alertIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT));
     }
-
 }

@@ -45,7 +45,7 @@ public class ListTodoFragment extends ListBaseFragment {
                 mCustomToast.showToast(card_moved_to_doing_list);
 
                 DoingCard doingCard = new DoingCard(card);
-                mScheduleNotifications.setAlarm(doingCard);
+                mScheduleNotifications.setFor(doingCard);
                 mUserService.addDoingCard(doingCard);
 
                 EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_FROM_TODO_TO_DOING_LIST);
