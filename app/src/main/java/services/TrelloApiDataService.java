@@ -23,33 +23,32 @@ import retrofit.http.Query;
 @EBean()
 public class TrelloApiDataService {
     @StringRes protected String trello_key;
-    @Bean protected UserService userService;
-
-    private TrelloRestApi restApi;
+    @Bean protected UserService mUserService;
+    private TrelloRestApi mRestApi;
 
     @AfterInject protected void init() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://api.trello.com/1")
                 .build();
-        restApi = restAdapter.create(TrelloRestApi.class);
+        mRestApi = restAdapter.create(TrelloRestApi.class);
     }
 
     public void getBoards(Callback<List<Board>> response) {
-        restApi.getBoards(trello_key, userService.getToken(), "name", response);
+        mRestApi.getBoards(trello_key, mUserService.getToken(), "name", response);
     }
 
     public void getLists(String id_board, Callback<List<models.List>> response) {
-        restApi.getLists(id_board, trello_key, userService.getToken(), "name", "idBoard", response);
+        mRestApi.getLists(id_board, trello_key, mUserService.getToken(), "name", "idBoard", response);
     }
 
     public void getCards(String id_list, Callback<List<Card>> response) {
-        restApi.getCards(id_list, trello_key, userService.getToken(), "name", "idList", response);
+        mRestApi.getCards(id_list, trello_key, mUserService.getToken(), "name", "idList", response);
     }
 
     public void moveCardFromTodoToDoingList(final Card card, final Callback<Card> createCallback) {
         final Callback<Response> deleteCallback = new Callback<Response>() {
             @Override public void success(Response response, Response response2) {
-                String idList = userService.getDoingList().getId();
+                String idList = mUserService.getDoingList().getId();
                 createCard(idList, card.getName(), createCallback);
             }
 
@@ -60,14 +59,16 @@ public class TrelloApiDataService {
 
         deleteCard(card.getId(), deleteCallback);
     }
+
+
     public void deleteCard(String idCard, Callback<Response> callback) {
-        restApi.deleteCard(idCard, trello_key, userService.getToken(), callback);
+        if (callback == null) callback = placeHolderCallback;
+        mRestApi.deleteCard(idCard, trello_key, mUserService.getToken(), callback);
     }
 
     public void createCard(String idList, String name, Callback<Card> callback) {
-        restApi.createCard(idList, name, trello_key, userService.getToken(), "name", "idList", callback);
+        mRestApi.createCard(idList, name, trello_key, mUserService.getToken(), "name", "idList", callback);
     }
-
 
     private interface TrelloRestApi {
         @GET("/members/me/boards")
@@ -118,8 +119,10 @@ public class TrelloApiDataService {
         );
     }
 
-    public interface CustomCallback  {
-        void onResponse(boolean success);
-    }
+    private Callback<Response> placeHolderCallback = new Callback<Response>() {
+        @Override public void success(Response response, Response response2) {
+        }
+        @Override public void failure(RetrofitError error) {}
+    };
 }
 

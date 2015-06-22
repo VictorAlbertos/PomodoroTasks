@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class DoingCard extends Card {
-    private Card card;
     private List<Action> actions = new ArrayList<>();
     private Action currentAction;
 
-    public DoingCard(){}
-
-    public DoingCard(Card card) {
-        this.card = card;
+    public DoingCard(Card card){
+        this.id = card.getId();
+        this.name = card.getName();
+        this.idList = card.getIdList();
+        addNewAction(new Action(Action.Type.Pomodoro));
     }
 
     public int getNPomodoros() {
@@ -48,13 +48,17 @@ public class DoingCard extends Card {
         return spentTime;
     }
 
-    public long getRunningTimeInMilliseconds() {
+    public long getRemainingTimeInMilliseconds() {
         long endTime = currentAction.getStartTimeStamp() + currentAction.getDuration();
         return endTime - System.currentTimeMillis();
     }
 
-    static class Action {
-        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(25),
+    public Action.Type getType() {
+        return currentAction.getType();
+    }
+
+    public static class Action {
+        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(1),
                 DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(10),
                 DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(5);
 
@@ -78,7 +82,7 @@ public class DoingCard extends Card {
             }
         }
 
-        private Type getType() {
+        public Type getType() {
             return type;
         }
 
@@ -90,7 +94,7 @@ public class DoingCard extends Card {
             return duration;
         }
 
-        enum Type {
+        public enum Type {
             Pomodoro, ShortBreak, LongBreak;
         }
     }

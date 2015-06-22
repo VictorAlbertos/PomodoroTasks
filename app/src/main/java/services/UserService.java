@@ -1,7 +1,11 @@
 package services;
 
+import android.support.annotation.Nullable;
+
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+
+import java.util.ArrayList;
 
 import models.Board;
 import models.Card;
@@ -15,9 +19,7 @@ public class UserService {
     @Bean protected Persistence mPersistence;
 
     public String getToken() {
-        if (getUser().getToken() == null)
-            throw new RuntimeException("Token has not been granted");
-
+        if (getUser().getToken() == null) throw new RuntimeException("Token has not been granted");
         return getUser().getToken();
     }
 
@@ -77,20 +79,36 @@ public class UserService {
         if (mUser != null) return mUser;
 
         mUser = (User) mPersistence.JSONFromDisk(User.class, "user");
-        if (mUser != null)
-            return mUser;
+        if (mUser != null) return mUser;
 
         return mUser = new User();
     }
 
+    public void updateForNotMatchingDoingCards(java.util.List<Card> doingCards) {
+        java.util.List<DoingCard> validDoingCards = new ArrayList<>(doingCards.size());
+        for (Card card : doingCards) {
+            validDoingCards.add((DoingCard) card);
+        }
+        getUser().setDoingCards(validDoingCards);
+        mPersistence.JSONToDisk(mUser, "user");
+    }
 
     public void addDoingCard(DoingCard doingCard) {
         getUser().getDoingCards().add(doingCard);
+        mPersistence.JSONToDisk(mUser, "user");
     }
 
-    public void startNewDoingTask(Card card) {
-        //remove from todoList
-        //add to doingList
-        //persits
+    @Nullable public DoingCard isThisDoingCardStillValid(final String idDoingCard) {
+        for (DoingCard doingCard : getUser().getDoingCards()) {
+            if (doingCard.getId().equals(idDoingCard)) return doingCard;
+        }
+        return null;
+    }
+
+    @Nullable public DoingCard isThisCardSetAsDoingCard(Card candidate) {
+        for (DoingCard doingCard : getUser().getDoingCards()) {
+            if (candidate.getId().equals(doingCard.getId())) return doingCard;
+        }
+        return null;
     }
 }

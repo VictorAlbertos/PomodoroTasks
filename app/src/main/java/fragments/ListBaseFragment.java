@@ -3,6 +3,7 @@ package fragments;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.hacerapp.pomodorotasks.R;
@@ -59,9 +60,8 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
 
     private void populateCards(final boolean refreshedByUser) {
         mApiDataService.getCards(getIdList(), new Callback<List<Card>>() {
-
             @Override public void success(List<Card> cards, Response response) {
-                rv_cards.setAdapter(adapter.init(cards, ListBaseFragment.this));
+                rv_cards.setAdapter(adapter.init(validateDataSource(cards), ListBaseFragment.this));
                 prl_cards.setRefreshing(false);
 
                 if (cards.isEmpty() && refreshedByUser)
@@ -78,9 +78,17 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     @Override public int getIdResource() {
         return R.layout.card_item;
     }
-    @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {}
+
+    @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {
+        ((TextView) viewHolder.root.findViewById(R.id.tv_title)).setText(card.getName());
+    }
+
     protected abstract String getIdList();
     protected abstract String getNameList();
+
+    protected List<Card> validateDataSource(List<Card> candidates) {
+        return candidates;
+    }
 
     public void onEvent(EventTask eventTask) {
         if (eventTask != EventTask.TABS_LISTS_UPDATE_DATA_SOURCE) return;

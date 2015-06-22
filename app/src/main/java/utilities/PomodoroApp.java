@@ -2,17 +2,24 @@ package utilities;
 
 import android.app.Application;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
-import services.UserService;
+import activities.DoingCardActivity;
 
 @EApplication
 public class PomodoroApp extends Application {
-    @Bean protected UserService mUserService;
+    //Track if CardDoingActivity is the current screen
+    private DoingCardActivity mDoingCardActivity = null;
 
-    @Override public void onCreate() {
-        super.onCreate();
-        //mUserService.destroySession();
+    public boolean isCardDoingActivityRunning(){
+        return mDoingCardActivity != null;
+    }
+
+    public DoingCardActivity getCardDoingActivity() {
+        return mDoingCardActivity;
+    }
+
+    public void setCardDoingActivity(DoingCardActivity mDoingCardActivity) {
+        this.mDoingCardActivity = mDoingCardActivity;
     }
 }

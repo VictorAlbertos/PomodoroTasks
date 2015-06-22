@@ -24,5 +24,17 @@
     <string name="empty_list">There are not cards in __</string>
     <string name="start">Start</string>
     <string name="card_moved_to_doing_list">Card moved to doing list!</string>
+    <string name="watch">Watch</string>
+    <string name="time_remaining_pomodoro">Time remaining pomodoro</string>
+    <string name="time_over_pomodoro">Time over pomodoro!</string>
+    <string name="time_remaining_long_break">Time remaining long break</string>
+    <string name="time_over_long_break">Time over long break!</string>
+    <string name="time_remaining_short_break">Time remaining short break</string>
+    <string name="time_over_short_break">Time over short break!</string>
+    <string name="notification">__ time over.</string>
+    <string name="notification_inside_activity">__ time over. Do you want to switch?</string>
+    <string name="pomodoro">Pomodoro</string>
+    <string name="long_break">Long break</string>
+    <string name="short_break">Short break</string>
 </resources>
 

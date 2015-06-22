@@ -1,7 +1,7 @@
 package models;
 
 public class BaseModel {
-    private String id, name;
+    protected String id, name;
 
     public String getId() {
         return id;

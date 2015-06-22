@@ -15,12 +15,12 @@ import models.DoingCard;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import services.TrelloApiDataService;
 import utilities.EventTask;
+import utilities.notifications.ScheduleNotifications;
 
 @EFragment(R.layout.list_fragment)
-public class ListTodoFragmentList extends ListBaseFragment {
-    @Bean protected TrelloApiDataService apiDataService;
+public class ListTodoFragment extends ListBaseFragment {
+    @Bean protected ScheduleNotifications mScheduleNotifications;
     @StringRes protected String to_do_list, card_moved_to_doing_list, error_connection;
 
     @Override protected String getIdList() {
@@ -36,13 +36,18 @@ public class ListTodoFragmentList extends ListBaseFragment {
     }
 
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, final Card card) {
+        super.onInflate(viewHolder, card);
+
         View bt_start = viewHolder.root.findViewById(R.id.bt_start);
 
         final Callback<Card> moveCallback = new Callback<Card>() {
             @Override public void success(Card card, Response response) {
                 mCustomToast.showToast(card_moved_to_doing_list);
 
-                mUserService.addDoingCard(new DoingCard(card));
+                DoingCard doingCard = new DoingCard(card);
+                mScheduleNotifications.setAlarm(doingCard);
+                mUserService.addDoingCard(doingCard);
+
                 EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_FROM_TODO_TO_DOING_LIST);
                 EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
             }
@@ -54,7 +59,7 @@ public class ListTodoFragmentList extends ListBaseFragment {
 
         bt_start.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                apiDataService.moveCardFromTodoToDoingList(card, moveCallback);
+                mApiDataService.moveCardFromTodoToDoingList(card, moveCallback);
             }
         });
     }

@@ -51,4 +51,8 @@ public class User {
     public java.util.List<DoingCard> getDoingCards() {
         return doingCards;
     }
+
+    public void setDoingCards(java.util.List<DoingCard> doingCards) {
+        this.doingCards = doingCards;
+    }
 }

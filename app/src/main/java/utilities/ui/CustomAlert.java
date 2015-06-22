@@ -15,7 +15,17 @@ public class CustomAlert {
         return new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
+                .neutralText(agree)
+                .show();
+    }
+
+    public MaterialDialog showTwoChoices(Activity activity, String title, String content, MaterialDialog.ButtonCallback callback) {
+        return new MaterialDialog.Builder(activity)
+                .title(title)
+                .callback(callback)
+                .content(content)
                 .positiveText(agree)
+                .neutralText(disagree)
                 .show();
     }
 }

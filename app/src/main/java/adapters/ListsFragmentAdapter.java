@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.hacerapp.pomodorotasks.R;
 
 import fragments.ListBaseFragment;
-import fragments.ListDoingFragmentList_;
-import fragments.ListDoneFragmentList_;
-import fragments.ListTodoFragmentList_;
+import fragments.ListDoingFragment_;
+import fragments.ListDoneFragment_;
+import fragments.ListTodoFragment_;
 
 public class ListsFragmentAdapter extends FragmentPagerAdapter {
     public static final int NUM_ITEMS = 3, POSITION_DOING = 1;
@@ -23,9 +23,9 @@ public class ListsFragmentAdapter extends FragmentPagerAdapter {
     }
 
     @Override public ListBaseFragment getItem(int position) {
-        if (position == POSITION_TODO) return new ListTodoFragmentList_();
-        else if (position == POSITION_DOING) return new ListDoingFragmentList_();
-        else return new ListDoneFragmentList_();
+        if (position == POSITION_TODO) return new ListTodoFragment_();
+        else if (position == POSITION_DOING) return new ListDoingFragment_();
+        else return new ListDoneFragment_();
     }
 
     @Override public int getCount() {
