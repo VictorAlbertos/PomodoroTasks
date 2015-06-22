@@ -15,7 +15,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:textColor="@color/texts"
-        android:textSize="@dimen/_30sp" />
+        android:textSize="@dimen/_25sp" />
 
     <info.hoang8f.widget.FButton
         android:id="@+id/bt_play_pause"
@@ -26,7 +26,6 @@
         android:text="@string/play"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/_20sp"
         android:textStyle="bold"
         app:buttonColor="@color/red"
         app:cornerRadius="@dimen/_3dp"
@@ -43,7 +42,6 @@
         android:text="@string/stop"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/_20sp"
         android:textStyle="bold"
         app:buttonColor="@color/red"
         app:cornerRadius="@dimen/_3dp"

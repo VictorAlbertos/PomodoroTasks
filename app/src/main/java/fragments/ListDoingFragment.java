@@ -57,8 +57,7 @@ public class ListDoingFragment extends ListBaseFragment {
         final DoingCard doingCard = (DoingCard) candidate;
 
         ActionCountDownView tv_time_running = (ActionCountDownView) viewHolder.root.findViewById(R.id.tv_time_running);
-        tv_time_running.setCountDownValueInMilliseconds(doingCard);
-
+        tv_time_running.bind(doingCard);
 
         View bt_watch = viewHolder.root.findViewById(R.id.bt_watch);
         bt_watch.setOnClickListener(new View.OnClickListener() {

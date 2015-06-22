@@ -1,7 +1,9 @@
 package activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,7 +43,7 @@ import static models.DoingCard.Action.Type;
 
 
 @EActivity(R.layout.doing_card_activity)
-public class DoingCardActivity extends Activity {
+public class DoingCardActivity extends AppCompatActivity {
     @App protected PomodoroApp mApp;
     @Bean protected CustomAlert mCustomAlert;
     @Bean protected CustomToast mCustomToast;
@@ -51,6 +53,7 @@ public class DoingCardActivity extends Activity {
     @Bean protected UserService mUserService;
     @Bean protected Animations mAnimations;
     @Bean protected Sounds mSounds;
+    @ViewById protected Toolbar toolbar;
     @ViewById protected ViewGroup ll_active_action, ll_no_active_action;
     @ViewById protected ActionCountDownView tv_countdown;
     @ViewById protected TextView tv_title;
@@ -64,6 +67,10 @@ public class DoingCardActivity extends Activity {
     private Type mActionType;
 
     @AfterViews protected void initViews() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         setUpSpinner();
         setUpCountDownListener();
 
@@ -71,7 +78,7 @@ public class DoingCardActivity extends Activity {
         if (idDoingCard == null) return;
 
         mDoingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if(mDoingCard != null) updateUI();
+        if(mDoingCard != null) update();
     }
 
     private void setUpSpinner() {
@@ -89,13 +96,15 @@ public class DoingCardActivity extends Activity {
     private void setUpCountDownListener() {
         tv_countdown.setCountDownListener(new ActionCountDownView.CountDownListener() {
             @Override public void onFinish() {
-                updateUI();
+                update();
                 mSounds.play(R.raw.alarm_sound);
             }
         });
     }
 
-    private void updateUI() {
+    private void update() {
+        mUserService.persistsChanges();
+
         tv_title.setText(mDoingCard.getName());
         tv_countdown.bind(mDoingCard);
 
@@ -130,12 +139,12 @@ public class DoingCardActivity extends Activity {
 
     @Click protected void bt_play_pause() {
         mDoingCard.setPause(!mDoingCard.isPause());
-        updateUI();
+        update();
     }
 
     @Click protected void bt_stop() {
         mDoingCard.resetCurrentAction();
-        updateUI();
+        update();
     }
 
     @StringRes protected String performance, spent_time, pomodoros, long_breaks, short_breaks;
@@ -183,7 +192,7 @@ public class DoingCardActivity extends Activity {
         }
 
         mDoingCard.addNewAction(mActionType);
-        updateUI();
+        update();
     }
 
     @Override public void onBackPressed() {
@@ -206,6 +215,11 @@ public class DoingCardActivity extends Activity {
     @Override protected void onDestroy() {
         mApp.setCardDoingActivity(null);
         super.onDestroy();
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
 }

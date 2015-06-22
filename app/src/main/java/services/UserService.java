@@ -33,12 +33,12 @@ public class UserService {
         }
 
         getUser().setToken(token);
-        return mPersistence.JSONToDisk(getUser(), "user");
+        return persistsChanges();
     }
 
     public void destroySession() {
         mUser = null;
-        mPersistence.JSONToDisk(mUser, "user");
+        persistsChanges();
     }
 
     public boolean isAuthenticate() {
@@ -55,7 +55,7 @@ public class UserService {
         getUser().setToDoList(toDoList);
         getUser().setDoingList(doingList);
         getUser().setDoneList(doneList);
-        mPersistence.JSONToDisk(mUser, "user");
+        persistsChanges();
     }
 
     public Board getBoard() {
@@ -90,12 +90,12 @@ public class UserService {
             validDoingCards.add((DoingCard) card);
         }
         getUser().setDoingCards(validDoingCards);
-        mPersistence.JSONToDisk(mUser, "user");
+        persistsChanges();
     }
 
     public void addDoingCard(DoingCard doingCard) {
         getUser().getDoingCards().add(doingCard);
-        mPersistence.JSONToDisk(mUser, "user");
+        persistsChanges();
     }
 
     @Nullable public DoingCard isThisDoingCardStillValid(final String idDoingCard) {
@@ -111,4 +111,9 @@ public class UserService {
         }
         return null;
     }
+
+    public boolean persistsChanges() {
+        return mPersistence.JSONToDisk(mUser, "user");
+    }
 }
+

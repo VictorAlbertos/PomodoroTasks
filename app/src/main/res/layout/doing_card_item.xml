@@ -39,6 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10dp"
             android:fontFamily="sans-serif"
+            android:paddingLeft="@dimen/_5dp"
+            android:paddingRight="@dimen/_5dp"
             android:text="@string/watch"
             android:textAllCaps="true"
             android:textColor="@color/white"

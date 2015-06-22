@@ -25,6 +25,7 @@ public class DoingCard extends Card {
 
     public int getIdNotification() {
         String temp = id.replaceAll("[^0-9]+", " ");
+        temp = temp.split(" ")[0];
         return Integer.valueOf(temp);
     }
 
@@ -100,8 +101,8 @@ public class DoingCard extends Card {
 
     public static class Action {
         private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(1),
-                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(10),
-                DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(5);
+                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(2),
+                DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(1);
 
         private Type type;
         private long startTimeStamp, duration;

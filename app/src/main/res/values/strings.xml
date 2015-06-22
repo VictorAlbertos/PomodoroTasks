@@ -53,7 +53,7 @@
     <string name="pomodoros">Pomodoros: </string>
     <string name="long_breaks">Long breaks: </string>
     <string name="short_breaks">Short breaks: </string>
-    <string name="what_next">What's next?</string>
-    <string name="its_over">It's over</string>
+    <string name="what_next">What\'s next?</string>
+    <string name="its_over">It\'s over</string>
 </resources>
 

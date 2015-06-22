@@ -24,10 +24,9 @@ public class ActionCountDownView extends TextView {
     private CountDownTimer mCountDownTimer;
     private CountDownListener mCountDownListener;
 
-    public ActionCountDownView bind(DoingCard doingCar) {
+    public void bind(DoingCard doingCar) {
         mDoingCard = doingCar;
         restartCountDown();
-        return this;
     }
 
     public void setCountDownListener(CountDownListener countDownListener) {
@@ -45,11 +44,11 @@ public class ActionCountDownView extends TextView {
                 else if (type == DoingCard.Action.Type.ShortBreak) typeString = time_remaining_short_break;
 
                 if (!mDoingCard.isPause()) {
-                    ActionCountDownView.this.setText(typeString + " " + getFormattedTime(millisUntilFinished));
+                    ActionCountDownView.this.setText(typeString + ":\n" + getFormattedTime(millisUntilFinished));
                 } else {
                     millisUntilFinished = mDoingCard.getTimeRemainingWhenThisWasPause();
                     if (mCountDownTimer != null) mCountDownTimer.cancel();
-                    ActionCountDownView.this.setText(typeString + " " + getFormattedTime(millisUntilFinished) + paused);
+                    ActionCountDownView.this.setText(typeString + ":\n" + getFormattedTime(millisUntilFinished) + paused);
                 }
             }
 
