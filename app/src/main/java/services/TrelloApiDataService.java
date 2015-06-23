@@ -42,7 +42,7 @@ public class TrelloApiDataService {
     }
 
     public void getCards(String id_list, Callback<List<Card>> response) {
-        mRestApi.getCards(id_list, trello_key, mUserService.getToken(), "name", "idList", response);
+        mRestApi.getCards(id_list, trello_key, mUserService.getToken(), "name", "idList", "desc", response);
     }
 
     public void moveCardToTodoList(final Card card, final Callback<Card> createCallback) {
@@ -81,7 +81,7 @@ public class TrelloApiDataService {
     }
 
     public void createCard(String idList, String name, String desc, Callback<Card> callback) {
-        mRestApi.createCard(idList, name, desc, trello_key, mUserService.getToken(), "name", "idList", callback);
+        mRestApi.createCard(idList, name, desc, trello_key, mUserService.getToken(), "name", "idList", "desc", callback);
     }
 
     private interface TrelloRestApi {
@@ -110,6 +110,7 @@ public class TrelloApiDataService {
                 @Query("token") String token,
                 @Query("fields") String name,
                 @Query("fields") String idList,
+                @Query("fields") String fieldDesc,
                 Callback<List<Card>> response
         );
 
@@ -122,6 +123,7 @@ public class TrelloApiDataService {
                 @Query("token") String token,
                 @Query("fields") String fieldName,
                 @Query("fields") String fieldIdList,
+                @Query("fields") String fieldDesc,
                 Callback<Card> cb
         );
 

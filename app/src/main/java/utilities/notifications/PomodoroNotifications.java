@@ -79,11 +79,12 @@ class PomodoroNotifications {
 
     private void showNotification(DoingCard doingCard) {
         Uri sound = Uri.parse("android.resource://" + mApp.getPackageName() + "/" + R.raw.alarm_sound);
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(mApp)
                         .setAutoCancel(true)
                         .setSound(sound)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(doingCard.getResourceIcon())
                         .setContentTitle(doingCard.getName())
                         .setContentText(getTextAlert(doingCard, false));
         builder.setContentIntent(getContentIntentNotification(doingCard));

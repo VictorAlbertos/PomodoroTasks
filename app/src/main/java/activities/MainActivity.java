@@ -17,7 +17,7 @@ import utilities.ui.Animations;
 
 @EActivity(R.layout.main_activity)
 public class MainActivity extends FragmentActivity {
-    @Bean protected Animations animations;
+    @Bean protected Animations mAnimations;
     @ViewById protected SlidingUpPanelLayout sliding_up_panel;
     @FragmentById protected ConfigFragment config_fragment;
 
@@ -27,11 +27,11 @@ public class MainActivity extends FragmentActivity {
         sliding_up_panel.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override public void onPanelExpanded(View view) {
                 config_fragment.populateInputs();
-                animations.alpha(config_fragment.toolbar, 1);
+                mAnimations.alpha(config_fragment.toolbar, 1);
             }
 
             @Override public void onPanelCollapsed(View view) {
-                animations.alpha(config_fragment.toolbar, .8f);
+                mAnimations.alpha(config_fragment.toolbar, .8f);
             }
 
             @Override public void onPanelSlide(View view, float v) {}
@@ -39,5 +39,4 @@ public class MainActivity extends FragmentActivity {
             @Override public void onPanelHidden(View view) {}
         });
     }
-
 }

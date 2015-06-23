@@ -1,5 +1,7 @@
 package models;
 
+import com.hacerapp.pomodorotasks.R;
+
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,11 +28,15 @@ public class DoingCard extends Card {
     public int getIdNotification() {
         String temp = id.replaceAll("[^0-9]+", " ");
         temp = temp.split(" ")[0];
+
+        int max = temp.length() <= 5 ? temp.length() : 5;
+        temp = temp.substring(0, max);
+
         return Integer.valueOf(temp);
     }
 
     public boolean isCurrentActionEnd() {
-        return getRemainingTimeInMilliseconds() == 0;
+        return getRemainingTimeInMilliseconds() <= 0;
     }
 
     public boolean isPause() {
@@ -70,15 +76,15 @@ public class DoingCard extends Card {
             spentTime += action.getDuration();
         }
 
-        spentTime=+aggregatedStopTime;
+        spentTime+=aggregatedStopTime;
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(spentTime),
                 TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
     }
 
     public void addNewAction(Action.Type type) {
-        if (currentAction != null) actions.add(currentAction);
         currentAction = new Action(type);
+        actions.add(currentAction);
         pause = false;
     }
 
@@ -97,6 +103,12 @@ public class DoingCard extends Card {
 
     public Action.Type getType() {
         return currentAction.getType();
+    }
+
+    public int getResourceIcon() {
+        if (getType() == DoingCard.Action.Type.Pomodoro) return R.drawable.ic_pomodoro;
+        if (getType() == DoingCard.Action.Type.LongBreak) return R.drawable.ic_long;
+        return R.drawable.ic_short;
     }
 
     public static class Action {

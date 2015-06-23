@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PomodoroTasks</string>
+    <string name="app_name">Pomodoro Cards</string>
     <string name="connect_with_trello">Connect with Trello</string>
     <string name="config_account">Config account</string>
     <string name="login_success">Login success!</string>
@@ -25,12 +25,7 @@
     <string name="start">Start</string>
     <string name="card_moved_to_doing_list">Card moved to doing list!</string>
     <string name="watch">Watch</string>
-    <string name="time_remaining_pomodoro">Time remaining pomodoro</string>
-    <string name="time_over_pomodoro">Time over pomodoro!</string>
-    <string name="time_remaining_long_break">Time remaining long break</string>
-    <string name="time_over_long_break">Time over long break!</string>
-    <string name="time_remaining_short_break">Time remaining short break</string>
-    <string name="time_over_short_break">Time over short break!</string>
+    <string name="time_over">Time over</string>
     <string name="notification">__ time over.</string>
     <string name="notification_inside_activity">__ time over. Do you want to switch?</string>
     <string name="pomodoro">Pomodoro</string>
@@ -38,14 +33,14 @@
     <string name="short_break">Short break</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
-    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
     <string name="move_to_done_list">Move to done list</string>
     <string name="back_to_todo_list">Back to todo list</string>
     <string name="spend_another_action">Spend another action</string>
     <string name="select_action_to_spend">Select action to spend</string>
     <string name="action_selected">Action selected</string>
     <string name="spend_it">Spend it!</string>
-    <string name="paused">\n(paused)</string>
+    <string name="paused">(paused)</string>
     <string name="task_moved_to_done_list">__ moved to done list</string>
     <string name="task_moved_to_todo_list">__ moved to todo list</string>
     <string name="performance">Performance</string>

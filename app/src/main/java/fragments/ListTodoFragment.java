@@ -38,8 +38,6 @@ public class ListTodoFragment extends ListBaseFragment {
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, final Card card) {
         super.onInflate(viewHolder, card);
 
-        View bt_start = viewHolder.root.findViewById(R.id.bt_start);
-
         final Callback<Card> moveCallback = new Callback<Card>() {
             @Override public void success(Card card, Response response) {
                 mCustomToast.showToast(card_moved_to_doing_list);
@@ -57,7 +55,7 @@ public class ListTodoFragment extends ListBaseFragment {
             }
         };
 
-        bt_start.setOnClickListener(new View.OnClickListener() {
+        viewHolder.root.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 mApiDataService.moveCardToDoingList(card, moveCallback);
             }

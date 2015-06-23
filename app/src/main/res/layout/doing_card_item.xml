@@ -3,54 +3,77 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_10dp"
+    android:layout_margin="@dimen/_5dp"
     card_view:cardBackgroundColor="@color/light_gray"
     card_view:cardCornerRadius="@dimen/_4dp"
     card_view:cardElevation="@dimen/_2dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="@dimen/_10dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/texts" />
+            android:layout_toLeftOf="@+id/rl_arrow"
+            android:orientation="vertical"
+            android:padding="@dimen/_10dp">
 
-        <custom_views.ActionCountDownView_
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_5dp"
+                android:fontFamily="sans-serif"
+                android:lines="2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/texts" />
 
-            android:id="@+id/tv_time_running"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/texts"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <info.hoang8f.widget.FButton xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bt_watch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:fontFamily="sans-serif"
-            android:paddingLeft="@dimen/_5dp"
-            android:paddingRight="@dimen/_5dp"
-            android:text="@string/watch"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            fbutton:buttonColor="@color/red"
-            fbutton:cornerRadius="@dimen/_3dp"
-            fbutton:shadowColor="@color/dark_red"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="@dimen/_3dp" />
+                <ImageView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="@dimen/_20dp"
+                    android:layout_height="@dimen/_20dp"
+                    android:layout_marginRight="@dimen/_10dp"
+                    android:src="@drawable/ic_pomodoro" />
 
-    </LinearLayout>
+                <custom_views.ActionCountDownView_
+                    android:id="@+id/tv_time_running"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/texts"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_arrow"
+            android:layout_width="@dimen/_20dp"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/ll_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/ll_content"
+            android:background="@color/red"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

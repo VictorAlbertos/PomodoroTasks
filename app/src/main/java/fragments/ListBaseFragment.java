@@ -75,10 +75,6 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
         });
     }
 
-    @Override public int getIdResource() {
-        return R.layout.card_item;
-    }
-
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {
         ((TextView) viewHolder.root.findViewById(R.id.tv_title)).setText(card.getName());
     }

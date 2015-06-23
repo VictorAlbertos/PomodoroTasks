@@ -1,13 +1,12 @@
 package activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -43,7 +42,7 @@ import static models.DoingCard.Action.Type;
 
 
 @EActivity(R.layout.doing_card_activity)
-public class DoingCardActivity extends AppCompatActivity {
+public class DoingCardActivity extends BaseAppCompatActivity {
     @App protected PomodoroApp mApp;
     @Bean protected CustomAlert mCustomAlert;
     @Bean protected CustomToast mCustomToast;
@@ -53,12 +52,12 @@ public class DoingCardActivity extends AppCompatActivity {
     @Bean protected UserService mUserService;
     @Bean protected Animations mAnimations;
     @Bean protected Sounds mSounds;
-    @ViewById protected Toolbar toolbar;
     @ViewById protected ViewGroup ll_active_action, ll_no_active_action;
     @ViewById protected ActionCountDownView tv_countdown;
     @ViewById protected TextView tv_title;
     @ViewById protected Button bt_play_pause;
     @ViewById protected MaterialSpinner sp_actions;
+    @ViewById protected ImageView iv_icon;
     @ViewById protected TextView tv_n_spent_time, tv_n_pomodoros, tv_n_long_breaks, tv_n_short_breaks;
     @ViewById protected FButton bt_spend_action;
     @StringRes protected String play, pause, task_moved_to_done_list, task_moved_to_todo_list,
@@ -67,9 +66,9 @@ public class DoingCardActivity extends AppCompatActivity {
     private Type mActionType;
 
     @AfterViews protected void initViews() {
-        setSupportActionBar(toolbar);
+        super.init();
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setUpSpinner();
         setUpCountDownListener();
@@ -78,7 +77,7 @@ public class DoingCardActivity extends AppCompatActivity {
         if (idDoingCard == null) return;
 
         mDoingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if(mDoingCard != null) update();
+        if(mDoingCard != null) update(false);
     }
 
     private void setUpSpinner() {
@@ -96,17 +95,18 @@ public class DoingCardActivity extends AppCompatActivity {
     private void setUpCountDownListener() {
         tv_countdown.setCountDownListener(new ActionCountDownView.CountDownListener() {
             @Override public void onFinish() {
-                update();
+                update(true);
                 mSounds.play(R.raw.alarm_sound);
             }
         });
     }
 
-    private void update() {
-        mUserService.persistsChanges();
+    private void update(boolean isCalledFromCountDownOnFinish) {
+        if (!isCalledFromCountDownOnFinish && !mDoingCard.isCurrentActionEnd())
+            tv_countdown.bind(mDoingCard);
 
+        mUserService.persistsChanges();
         tv_title.setText(mDoingCard.getName());
-        tv_countdown.bind(mDoingCard);
 
         String textButton = mDoingCard.isPause() ? play : pause;
         bt_play_pause.setText(textButton);
@@ -115,6 +115,8 @@ public class DoingCardActivity extends AppCompatActivity {
         tv_n_pomodoros.setText(mDoingCard.getNPomodoros());
         tv_n_long_breaks.setText(mDoingCard.getNLongBreaks());
         tv_n_short_breaks.setText(mDoingCard.getNShortBreaks());
+
+        iv_icon.setImageResource(mDoingCard.getResourceIcon());
 
         if (mDoingCard.isCurrentActionEnd()) {
             ll_active_action.setVisibility(View.GONE);
@@ -139,12 +141,12 @@ public class DoingCardActivity extends AppCompatActivity {
 
     @Click protected void bt_play_pause() {
         mDoingCard.setPause(!mDoingCard.isPause());
-        update();
+        update(false);
     }
 
     @Click protected void bt_stop() {
         mDoingCard.resetCurrentAction();
-        update();
+        update(false);
     }
 
     @StringRes protected String performance, spent_time, pomodoros, long_breaks, short_breaks;
@@ -192,7 +194,7 @@ public class DoingCardActivity extends AppCompatActivity {
         }
 
         mDoingCard.addNewAction(mActionType);
-        update();
+        update(false);
     }
 
     @Override public void onBackPressed() {

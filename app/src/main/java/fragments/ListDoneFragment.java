@@ -1,13 +1,21 @@
 package fragments;
 
+import android.widget.TextView;
+
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
 
+import adapters.CardsRecyclerViewAdapter;
+import models.Card;
+
 @EFragment(R.layout.list_fragment)
 public class ListDoneFragment extends ListBaseFragment {
 
+    @Override public int getIdResource() {
+        return R.layout.done_card_item;
+    }
     @Override protected String getIdList() {
         return mUserService.getDoneList().getId();
     }
@@ -17,4 +25,8 @@ public class ListDoneFragment extends ListBaseFragment {
         return done_list;
     }
 
+    @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {
+        super.onInflate(viewHolder, card);
+        ((TextView) viewHolder.root.findViewById(R.id.tv_desc)).setText(card.getDesc());
+    }
 }

@@ -8,14 +8,30 @@
     android:orientation="vertical"
     android:padding="@dimen/_10dp">
 
-    <custom_views.ActionCountDownView_
-        android:id="@+id/tv_countdown"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:textColor="@color/texts"
-        android:textSize="@dimen/_25sp" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_10dp"
+            android:src="@drawable/ic_pomodoro" />
+
+        <custom_views.ActionCountDownView_
+            android:id="@+id/tv_countdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textColor="@color/texts"
+            android:textSize="@dimen/_25sp" />
+
+    </LinearLayout>
+
 
     <info.hoang8f.widget.FButton
         android:id="@+id/bt_play_pause"
@@ -39,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10dp"
         android:fontFamily="sans-serif"
-        android:text="@string/stop"
+        android:text="@string/reset"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textStyle="bold"
