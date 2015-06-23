@@ -16,8 +16,10 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.List;
 
 import activities.ConfigActivity;
+import activities.MainActivity;
 import activities.MainActivity_;
 import custom_views.ConfigInputView;
+import de.greenrobot.event.EventBus;
 import info.hoang8f.widget.FButton;
 import models.BaseModel;
 import models.Board;
@@ -26,6 +28,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import services.TrelloApiDataService;
 import services.UserService;
+import utilities.EventTask;
 import utilities.ui.Animations;
 import utilities.ui.CustomToast;
 
@@ -128,5 +131,7 @@ public class ConfigFragment extends Fragment {
 
         if (getActivity() instanceof ConfigActivity)
             MainActivity_.intent(getActivity()).start();
+        else if (getActivity() instanceof MainActivity)
+            EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
     }
 }

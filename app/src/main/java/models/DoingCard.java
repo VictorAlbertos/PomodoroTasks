@@ -2,15 +2,15 @@ package models;
 
 import com.hacerapp.pomodorotasks.R;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class DoingCard extends Card {
     private List<Action> actions = new ArrayList<>();
     private Action currentAction;
-    private long timeRemainingWhenThisWasPause;
-    private long aggregatedStopTime;
+    private long timeRemainingWhenPaused;
+    private long aggregatedSpentTime;
     private boolean pause;
 
     public DoingCard(Card card){
@@ -20,22 +20,25 @@ public class DoingCard extends Card {
         addNewAction(Action.Type.Pomodoro);
     }
 
-    public void resetCurrentAction() {
-        aggregatedStopTime += getRemainingTimeInMilliseconds();
+    public String resetCurrentAction() {
+        long remainingTime = isPause() ? getTimeRemainingAtPause() : getRemainingTimeInMilliseconds();
+        long spentTime = currentAction.getDuration() - remainingTime;
+
+        aggregatedSpentTime += spentTime;
         currentAction.setStartTimeStamp(System.currentTimeMillis());
+        pause = false;
+
+        return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
     }
 
-    public int getIdNotification() {
-        String temp = id.replaceAll("[^0-9]+", " ");
-        temp = temp.split(" ")[0];
-
-        int max = temp.length() <= 5 ? temp.length() : 5;
-        temp = temp.substring(0, max);
-
-        return Integer.valueOf(temp);
+    //used for schedule notifications id
+    public int getIntId() {
+        return Integer.parseInt(id.substring(0, 8), 16);
     }
 
     public boolean isCurrentActionEnd() {
+        if (isPause()) return false;
         return getRemainingTimeInMilliseconds() <= 0;
     }
 
@@ -46,15 +49,37 @@ public class DoingCard extends Card {
     public void setPause(boolean pause) {
         this.pause = pause;
         if (this.pause) {
-            timeRemainingWhenThisWasPause = getRemainingTimeInMilliseconds();
+            timeRemainingWhenPaused = getRemainingTimeInMilliseconds();
         } else {
-            long delta = currentAction.getDuration() - timeRemainingWhenThisWasPause;
-            currentAction.setStartTimeStamp(System.currentTimeMillis() + delta);
+            long delta = currentAction.getDuration() - timeRemainingWhenPaused;
+            currentAction.setStartTimeStamp(System.currentTimeMillis() - delta);
         }
     }
 
-    public long getTimeRemainingWhenThisWasPause() {
-        return timeRemainingWhenThisWasPause;
+    public long getTimeRemainingAtPause() {
+        return timeRemainingWhenPaused;
+    }
+
+    public String getPerformance(String performance, String spent_time, String pomodoros,
+                                  String long_breaks, String short_breaks) {
+        return  performance + "\n    " +
+                    spent_time + " " + getSpentTime() + "\n    " +
+                    pomodoros + " " + getNPomodoros() + "\n    " +
+                    long_breaks + " " + getNLongBreaks() + "\n    " +
+                    short_breaks + " " + getNShortBreaks();
+    }
+
+    public String getSpentTime() {
+        long spentTime = 0;
+
+        for (Action action : actions) {
+            spentTime += action.getDuration();
+        }
+
+        spentTime+= aggregatedSpentTime;
+        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(spentTime),
+                TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
+                TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
     }
 
     public String getNPomodoros() {
@@ -67,19 +92,6 @@ public class DoingCard extends Card {
 
     public String getNShortBreaks() {
         return String.valueOf(getNTimes(Action.Type.ShortBreak));
-    }
-
-    public String getSpentTime() {
-        long spentTime = 0;
-
-        for (Action action : actions) {
-            spentTime += action.getDuration();
-        }
-
-        spentTime+=aggregatedStopTime;
-        return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(spentTime),
-                TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
-                TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
     }
 
     public void addNewAction(Action.Type type) {
@@ -113,7 +125,7 @@ public class DoingCard extends Card {
 
     public static class Action {
         private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(1),
-                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(2),
+                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(1),
                 DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(1);
 
         private Type type;

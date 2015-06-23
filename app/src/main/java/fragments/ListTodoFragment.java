@@ -21,7 +21,7 @@ import utilities.notifications.ScheduleNotifications;
 @EFragment(R.layout.list_fragment)
 public class ListTodoFragment extends ListBaseFragment {
     @Bean protected ScheduleNotifications mScheduleNotifications;
-    @StringRes protected String to_do_list, card_moved_to_doing_list, error_connection;
+    @StringRes protected String to_do_list, task_moved_to_doing_list, error_connection;
 
     @Override protected String getIdList() {
         return mUserService.getToDoList().getId();
@@ -40,13 +40,14 @@ public class ListTodoFragment extends ListBaseFragment {
 
         final Callback<Card> moveCallback = new Callback<Card>() {
             @Override public void success(Card card, Response response) {
-                mCustomToast.showToast(card_moved_to_doing_list);
+                String message = task_moved_to_doing_list.replaceFirst("__", card.getName());
+                mCustomToast.showToast(message);
 
                 DoingCard doingCard = new DoingCard(card);
                 mScheduleNotifications.setFor(doingCard);
                 mUserService.addDoingCard(doingCard);
 
-                EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_FROM_TODO_TO_DOING_LIST);
+                EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_DOING_LIST);
                 EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
             }
 

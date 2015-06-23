@@ -23,11 +23,10 @@
     <string name="error_connection">Error connection. Please try again later.</string>
     <string name="empty_list">There are not cards in __</string>
     <string name="start">Start</string>
-    <string name="card_moved_to_doing_list">Card moved to doing list!</string>
     <string name="watch">Watch</string>
     <string name="time_over">Time over</string>
     <string name="notification">__ time over.</string>
-    <string name="notification_inside_activity">__ time over. Do you want to switch?</string>
+    <string name="notification_inside_activity">__ time over. Do you want to check it?</string>
     <string name="pomodoro">Pomodoro</string>
     <string name="long_break">Long break</string>
     <string name="short_break">Short break</string>
@@ -42,6 +41,7 @@
     <string name="spend_it">Spend it!</string>
     <string name="paused">(paused)</string>
     <string name="task_moved_to_done_list">__ moved to done list</string>
+    <string name="task_moved_to_doing_list">__ moved to doing list!</string>
     <string name="task_moved_to_todo_list">__ moved to todo list</string>
     <string name="performance">Performance</string>
     <string name="spent_time">Spent time: </string>
@@ -50,5 +50,7 @@
     <string name="short_breaks">Short breaks: </string>
     <string name="what_next">What\'s next?</string>
     <string name="its_over">It\'s over</string>
+    <string name="spent_time_added">__ added to already spent time</string>
+
 </resources>
 

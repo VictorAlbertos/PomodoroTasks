@@ -1,25 +1,24 @@
 package utilities;
 
+import android.app.Activity;
 import android.app.Application;
 
 import org.androidannotations.annotations.EApplication;
 
-import activities.DoingCardActivity;
-
 @EApplication
 public class PomodoroApp extends Application {
-    //Track if CardDoingActivity is the current screen
-    private DoingCardActivity mDoingCardActivity = null;
+    //Tracking current activity to manage notifications
+    private Activity mCurrentActivity = null;
 
-    public boolean isCardDoingActivityRunning(){
-        return mDoingCardActivity != null;
+    public boolean isAnyActivityRunning(){
+        return mCurrentActivity != null;
     }
 
-    public DoingCardActivity getCardDoingActivity() {
-        return mDoingCardActivity;
+    public Activity getCurrentActivity() {
+        return mCurrentActivity;
     }
 
-    public void setCardDoingActivity(DoingCardActivity mDoingCardActivity) {
-        this.mDoingCardActivity = mDoingCardActivity;
+    public void setCurrentActivity(Activity mCurrentActivity) {
+        this.mCurrentActivity = mCurrentActivity;
     }
 }

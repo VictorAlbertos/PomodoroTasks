@@ -7,6 +7,9 @@ import com.hacerapp.pomodorotasks.R;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
 
+import java.util.Collections;
+import java.util.List;
+
 import adapters.CardsRecyclerViewAdapter;
 import models.Card;
 
@@ -28,5 +31,10 @@ public class ListDoneFragment extends ListBaseFragment {
     @Override public void onInflate(CardsRecyclerViewAdapter.ViewHolder viewHolder, Card card) {
         super.onInflate(viewHolder, card);
         ((TextView) viewHolder.root.findViewById(R.id.tv_desc)).setText(card.getDesc());
+    }
+
+    @Override protected List<Card> validateDataSource(List<Card> candidates) {
+        Collections.reverse(candidates);
+        return candidates;
     }
 }

@@ -10,6 +10,6 @@
 
     <color name="background">@color/white</color>
     <color name="texts">@color/gray</color>
-    <color name="background_toast">@color/green</color>
-    <color name="texts_toast">@color/white</color>
+    <color name="background_toast">@color/light_gray</color>
+    <color name="texts_toast">@color/red</color>
 </resources>

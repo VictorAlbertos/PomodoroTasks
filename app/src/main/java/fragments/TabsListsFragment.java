@@ -35,7 +35,12 @@ public class TabsListsFragment  extends Fragment {
     }
 
     public void onEvent(EventTask eventTask) {
-        if (eventTask != EventTask.TABS_LISTS_FRAGMENT_MOVE_FROM_TODO_TO_DOING_LIST) return;
-        vp_lists.setCurrentItem(ListsFragmentAdapter.POSITION_DOING, true);
+        if (eventTask == EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_TODO_LIST) {
+            vp_lists.setCurrentItem(ListsFragmentAdapter.POSITION_TODO, true);
+        } else if (eventTask == EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_DOING_LIST) {
+            vp_lists.setCurrentItem(ListsFragmentAdapter.POSITION_DOING, true);
+        } else if (eventTask == EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_DONE_LIST) {
+            vp_lists.setCurrentItem(ListsFragmentAdapter.POSITION_DONE, true);
+        }
     }
 }

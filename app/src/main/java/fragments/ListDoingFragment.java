@@ -16,11 +16,11 @@ import adapters.CardsRecyclerViewAdapter;
 import custom_views.ActionCountDownView;
 import models.Card;
 import models.DoingCard;
+import utilities.EventTask;
 import utilities.notifications.ScheduleNotifications;
 
 @EFragment(R.layout.list_fragment)
 public class ListDoingFragment extends ListBaseFragment {
-
     @Override protected String getIdList() {
         return mUserService.getDoingList().getId();
     }
@@ -69,5 +69,12 @@ public class ListDoingFragment extends ListBaseFragment {
                         .start();
             }
         });
+    }
+
+    public void onEvent(EventTask eventTask) {
+        super.onEvent(eventTask);
+
+        if (eventTask != EventTask.LIST_DOING_FRAGMENT_UPDATE_COUNTDOWN) return;
+        rv_cards.getAdapter().notifyDataSetChanged();
     }
 }

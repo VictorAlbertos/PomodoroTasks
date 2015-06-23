@@ -59,6 +59,7 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     }
 
     private void populateCards(final boolean refreshedByUser) {
+        prl_cards.setRefreshing(true);
         mApiDataService.getCards(getIdList(), new Callback<List<Card>>() {
             @Override public void success(List<Card> cards, Response response) {
                 rv_cards.setAdapter(adapter.init(validateDataSource(cards), ListBaseFragment.this));

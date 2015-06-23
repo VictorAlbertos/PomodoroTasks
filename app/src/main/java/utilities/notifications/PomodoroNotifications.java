@@ -1,5 +1,6 @@
 package utilities.notifications;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.AfterInject;
@@ -19,6 +21,7 @@ import org.androidannotations.annotations.res.StringRes;
 
 import java.util.List;
 
+import activities.DoingCardActivity;
 import activities.DoingCardActivity_;
 import models.Card;
 import models.DoingCard;
@@ -28,12 +31,16 @@ import retrofit.client.Response;
 import services.TrelloApiDataService;
 import services.UserService;
 import utilities.PomodoroApp;
+import utilities.ui.CustomAlert;
+import utilities.ui.Sounds;
 
 @EBean
 class PomodoroNotifications {
     @App protected PomodoroApp mApp;
     @Bean protected UserService mUserService;
     @Bean protected TrelloApiDataService mApiDataService;
+    @Bean protected CustomAlert mCustomAlert;
+    @Bean protected Sounds mSounds;
     private NotificationManager mNotificationManager;
 
     @AfterInject protected void init() {
@@ -45,23 +52,16 @@ class PomodoroNotifications {
         if (idDoingCard == null) return;
 
         final DoingCard doingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if (doingCard == null) return;
+        if (doingCard == null || doingCard.isPause()) return;
 
         Runnable callback = new Runnable() {
             @Override public void run() {
-                if (mApp.isCardDoingActivityRunning()) {
-                    String title = doingCard.getName();
-                    String text = getTextAlert(doingCard, true);
-                    mApp.getCardDoingActivity().fromNotificationAskToSwitchTo(doingCard, title, text);
-                } else  showNotification(doingCard);
+                if (mApp.isAnyActivityRunning()) askToPresentDoingCardActivity(doingCard);
+                else showNotification(doingCard);
             }
         };
 
         callbackOnlyIfCardStillExitsInTrello(doingCard.getId(), callback);
-    }
-
-    void cancelLastNotificationFor(DoingCard doingCard) {
-        mNotificationManager.cancel(doingCard.getIdNotification());
     }
 
     private void callbackOnlyIfCardStillExitsInTrello(final String idDoingCard, final Runnable callback) {
@@ -89,7 +89,27 @@ class PomodoroNotifications {
                         .setContentText(getTextAlert(doingCard, false));
         builder.setContentIntent(getContentIntentNotification(doingCard));
 
-        mNotificationManager.notify(doingCard.getIdNotification(), builder.build());
+        mNotificationManager.notify(doingCard.getIntId(), builder.build());
+    }
+
+    private void askToPresentDoingCardActivity(final DoingCard doingCard) {
+        mSounds.play(R.raw.alarm_sound);
+
+        String title = doingCard.getName();
+        String text = getTextAlert(doingCard, true);
+
+        final Activity activity = mApp.getCurrentActivity();
+        if (activity instanceof DoingCardActivity) {
+            if (((DoingCardActivity) activity).isAlreadyPresent(doingCard)) return;
+        }
+
+        mCustomAlert.showTwoChoices(activity, title, text, new MaterialDialog.ButtonCallback() {
+            @Override public void onPositive(MaterialDialog dialog) {
+                DoingCardActivity_.intent(activity)
+                        .extra(ScheduleNotifications.ID_CARD_DOING, doingCard.getId())
+                        .start();
+            }
+        });
     }
 
     private PendingIntent getContentIntentNotification(DoingCard doingCard) {
@@ -97,13 +117,14 @@ class PomodoroNotifications {
 
         Bundle bundle = new Bundle();
         bundle.putString(ScheduleNotifications.ID_CARD_DOING, doingCard.getId());
+
         resultIntent.putExtras(bundle);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(mApp);
         stackBuilder.addParentStack(DoingCardActivity_.class);
         stackBuilder.addNextIntent(resultIntent);
 
-        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
     @StringRes protected String notification_inside_activity, notification, pomodoro, long_break, short_break;

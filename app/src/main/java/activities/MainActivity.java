@@ -1,6 +1,5 @@
 package activities;
 
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.hacerapp.pomodorotasks.R;
@@ -16,7 +15,7 @@ import fragments.ConfigFragment;
 import utilities.ui.Animations;
 
 @EActivity(R.layout.main_activity)
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseAppCompatActivity {
     @Bean protected Animations mAnimations;
     @ViewById protected SlidingUpPanelLayout sliding_up_panel;
     @FragmentById protected ConfigFragment config_fragment;

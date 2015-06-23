@@ -2,7 +2,6 @@ package custom_views;
 
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -12,6 +11,7 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.concurrent.TimeUnit;
 
 import models.DoingCard;
+import utilities.CountDownTimer;
 
 @EView
 public class ActionCountDownView extends TextView {
@@ -32,17 +32,21 @@ public class ActionCountDownView extends TextView {
         mCountDownListener = countDownListener;
     }
 
-    private void restartCountDown() {
-        if (mCountDownTimer !=null) mCountDownTimer.cancel();
+    public void restartCountDown() {
+        if (mDoingCard.isPause()) showPauseMessage();
+        else if (mDoingCard.isCurrentActionEnd()) setText(time_over);
+        else setUpCountDown();
+    }
+
+    private void setUpCountDown() {
+        if (mCountDownTimer != null) mCountDownTimer.cancel();
+
         mCountDownTimer = new CountDownTimer(mDoingCard.getRemainingTimeInMilliseconds(), 1000) {
             @Override public void onTick(long millisUntilFinished) {
-                if (!mDoingCard.isPause()) {
-                    ActionCountDownView.this.setText(getFormattedTime(millisUntilFinished));
-                } else {
-                    millisUntilFinished = mDoingCard.getTimeRemainingWhenThisWasPause();
-                    if (mCountDownTimer != null) mCountDownTimer.cancel();
-                    ActionCountDownView.this.setText(getFormattedTime(millisUntilFinished) + " " + paused);
-                }
+                if (mDoingCard.isPause()) {
+                    showPauseMessage();
+                    cancelCountDown();
+                } else ActionCountDownView.this.setText(getFormattedTime(millisUntilFinished));
             }
 
             @Override public void onFinish() {
@@ -50,6 +54,14 @@ public class ActionCountDownView extends TextView {
                 if (mCountDownListener != null) mCountDownListener.onFinish();
             }
         }.start();
+    }
+
+    public void cancelCountDown() {
+        if (mCountDownTimer != null) mCountDownTimer.cancel();
+    }
+
+    private void showPauseMessage() {
+        setText(getFormattedTime(mDoingCard.getTimeRemainingAtPause()) + " " + paused);
     }
 
     private String getFormattedTime(long millisUntilFinished) {

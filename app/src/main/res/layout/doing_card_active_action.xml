@@ -50,7 +50,7 @@
         app:shadowHeight="@dimen/_3dp" />
 
     <info.hoang8f.widget.FButton
-        android:id="@+id/bt_stop"
+        android:id="@+id/bt_reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10dp"

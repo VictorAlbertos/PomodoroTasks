@@ -9,11 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -22,6 +20,7 @@ import org.androidannotations.annotations.res.StringRes;
 
 import adapters.TypeActionSpinnerAdapter;
 import custom_views.ActionCountDownView;
+import de.greenrobot.event.EventBus;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import info.hoang8f.widget.FButton;
 import models.Card;
@@ -31,7 +30,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import services.TrelloApiDataService;
 import services.UserService;
-import utilities.PomodoroApp;
+import utilities.EventTask;
 import utilities.notifications.ScheduleNotifications;
 import utilities.ui.Animations;
 import utilities.ui.CustomAlert;
@@ -43,7 +42,6 @@ import static models.DoingCard.Action.Type;
 
 @EActivity(R.layout.doing_card_activity)
 public class DoingCardActivity extends BaseAppCompatActivity {
-    @App protected PomodoroApp mApp;
     @Bean protected CustomAlert mCustomAlert;
     @Bean protected CustomToast mCustomToast;
     @Bean protected ScheduleNotifications mScheduleNotifications;
@@ -61,7 +59,7 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @ViewById protected TextView tv_n_spent_time, tv_n_pomodoros, tv_n_long_breaks, tv_n_short_breaks;
     @ViewById protected FButton bt_spend_action;
     @StringRes protected String play, pause, task_moved_to_done_list, task_moved_to_todo_list,
-                                    error_connection, validation_empty_field;
+                                    error_connection, validation_empty_field, spent_time_added;
     private DoingCard mDoingCard;
     private Type mActionType;
 
@@ -77,7 +75,7 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         if (idDoingCard == null) return;
 
         mDoingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if(mDoingCard != null) update(false);
+        if(mDoingCard != null) update();
     }
 
     private void setUpSpinner() {
@@ -95,15 +93,14 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     private void setUpCountDownListener() {
         tv_countdown.setCountDownListener(new ActionCountDownView.CountDownListener() {
             @Override public void onFinish() {
-                update(true);
+                update();
                 mSounds.play(R.raw.alarm_sound);
             }
         });
     }
 
-    private void update(boolean isCalledFromCountDownOnFinish) {
-        if (!isCalledFromCountDownOnFinish && !mDoingCard.isCurrentActionEnd())
-            tv_countdown.bind(mDoingCard);
+    private void update() {
+        tv_countdown.bind(mDoingCard);
 
         mUserService.persistsChanges();
         tv_title.setText(mDoingCard.getName());
@@ -128,38 +125,30 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         }
     }
 
-    public void fromNotificationAskToSwitchTo(final DoingCard doingCard, String title, String text) {
-        if (doingCard.getId().equals(mDoingCard.getId())) return;
-
-        mCustomAlert.showTwoChoices(this, title, text, new MaterialDialog.ButtonCallback() {
-            @Override public void onPositive(MaterialDialog dialog) {
-                mScheduleNotifications.setFor(mDoingCard);
-                mDoingCard = doingCard;
-            }
-        });
-    }
-
     @Click protected void bt_play_pause() {
         mDoingCard.setPause(!mDoingCard.isPause());
-        update(false);
+        update();
     }
 
-    @Click protected void bt_stop() {
-        mDoingCard.resetCurrentAction();
-        update(false);
+    @Click protected void bt_reset() {
+        String addedTime = mDoingCard.resetCurrentAction();
+        String message = spent_time_added.replaceFirst("__", addedTime);
+        mCustomToast.showToast(message);
+
+        update();
     }
 
     @StringRes protected String performance, spent_time, pomodoros, long_breaks, short_breaks;
     @Click protected void bt_move_to_done_list() {
-        String feedbackTask = performance + "\\";
-        feedbackTask += spent_time + mDoingCard.getSpentTime();
-        feedbackTask += pomodoros + mDoingCard.getNPomodoros();
-        feedbackTask += long_breaks + mDoingCard.getNLongBreaks();
-        feedbackTask += short_breaks + mDoingCard.getNShortBreaks();
+        String performanceTask = mDoingCard.getPerformance(performance,
+                spent_time, pomodoros, long_breaks, short_breaks);
 
-        mApiDataService.moveCardToDoneList(feedbackTask, mDoingCard, new Callback<Card>() {
+        mApiDataService.moveCardToDoneList(performanceTask, mDoingCard, new Callback<Card>() {
             @Override
             public void success(Card card, Response response) {
+                EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_DONE_LIST);
+                EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
+
                 String message = task_moved_to_done_list;
                 mCustomToast.showToast(message.replaceFirst("__", mDoingCard.getName()));
                 onBackPressed();
@@ -175,6 +164,9 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @Click protected void bt_back_to_todo_list() {
         mApiDataService.moveCardToTodoList(mDoingCard, new Callback<Card>() {
             @Override public void success(Card card, Response response) {
+                EventBus.getDefault().post(EventTask.TABS_LISTS_FRAGMENT_MOVE_TO_TODO_LIST);
+                EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
+
                 String message = task_moved_to_todo_list;
                 mCustomToast.showToast(message.replaceFirst("__", mDoingCard.getName()));
                 onBackPressed();
@@ -194,29 +186,31 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         }
 
         mDoingCard.addNewAction(mActionType);
-        update(false);
+        update();
     }
 
     @Override public void onBackPressed() {
-        mScheduleNotifications.setFor(mDoingCard);
-        MainActivity_.intent(this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
-        finish();
-    }
+        if (!isTaskRoot()) {
+            EventBus.getDefault().post(EventTask.LIST_DOING_FRAGMENT_UPDATE_COUNTDOWN);
+            super.onBackPressed();
+            return;
+        }
 
-    @Override protected void onResume() {
-        mApp.setCardDoingActivity(this);
-        super.onResume();
+        MainActivity_.intent(this)
+                .flags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
+                .start();
+        finish();
     }
 
     @Override protected void onPause() {
         mScheduleNotifications.setFor(mDoingCard);
-        mApp.setCardDoingActivity(null);
+        tv_countdown.cancelCountDown();
         super.onPause();
     }
 
-    @Override protected void onDestroy() {
-        mApp.setCardDoingActivity(null);
-        super.onDestroy();
+    @Override protected void onResume() {
+        tv_countdown.restartCountDown();
+        super.onResume();
     }
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -224,4 +218,7 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean isAlreadyPresent(DoingCard doingCard) {
+        return mDoingCard.getId().equals(doingCard.getId());
+    }
 }

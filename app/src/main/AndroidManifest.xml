@@ -38,7 +38,6 @@
         <activity
             android:name="activities.DoingCardActivity_"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <receiver android:name="utilities.notifications.PomodoroBroadcastReceiver_"/>
     </application>
