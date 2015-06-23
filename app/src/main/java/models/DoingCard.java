@@ -119,14 +119,14 @@ public class DoingCard extends Card {
 
     public int getResourceIcon() {
         if (getType() == DoingCard.Action.Type.Pomodoro) return R.drawable.ic_pomodoro;
-        if (getType() == DoingCard.Action.Type.LongBreak) return R.drawable.ic_long;
-        return R.drawable.ic_short;
+        if (getType() == DoingCard.Action.Type.LongBreak) return R.drawable.ic_break;
+        return R.drawable.ic_break;
     }
 
     public static class Action {
-        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(1),
-                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(1),
-                DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(1);
+        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(25),
+                DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(15),
+                DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(5);
 
         private Type type;
         private long startTimeStamp, duration;
