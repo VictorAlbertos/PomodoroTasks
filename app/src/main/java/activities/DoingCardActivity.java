@@ -91,11 +91,9 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     }
 
     private void setUpCountDownListener() {
-        tv_countdown.setCountDownListener(new ActionCountDownView.CountDownListener() {
-            @Override public void onFinish() {
-                update();
-                mSounds.play(R.raw.alarm_sound);
-            }
+        tv_countdown.setCountDownListener(() -> {
+            update();
+            mSounds.play(R.raw.alarm_sound);
         });
     }
 

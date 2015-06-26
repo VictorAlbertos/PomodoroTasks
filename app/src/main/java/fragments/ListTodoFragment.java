@@ -1,7 +1,5 @@
 package fragments;
 
-import android.view.View;
-
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.Bean;
@@ -56,10 +54,6 @@ public class ListTodoFragment extends ListBaseFragment {
             }
         };
 
-        viewHolder.root.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                mApiDataService.moveCardToDoingList(card, moveCallback);
-            }
-        });
+        viewHolder.root.setOnClickListener(v -> mApiDataService.moveCardToDoingList(card, moveCallback));
     }
 }

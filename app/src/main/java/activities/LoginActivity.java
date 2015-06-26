@@ -56,11 +56,9 @@ public class LoginActivity extends FragmentActivity {
     }
 
     private void attemptToPerformLogin(String url) {
-        mApi.authUser(url, new TrelloApiAuthService.Callback() {
-            @Override public void onResponse(String message, boolean success) {
-                if (success) ConfigActivity_.intent(LoginActivity.this).start();
-                else customToast.showToast(message);
-            }
+        mApi.authUser(url, (message, success) -> {
+            if (success) ConfigActivity_.intent(LoginActivity.this).start();
+            else customToast.showToast(message);
         });
     }
 }

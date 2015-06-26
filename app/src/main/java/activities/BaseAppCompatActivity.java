@@ -50,17 +50,14 @@ public class BaseAppCompatActivity extends AppCompatActivity {
 
     @ColorRes(R.color.white) protected int color;
     private void hackDrawerTintColor() {
-        toolbar.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Field field = Toolbar.class.getDeclaredField("mNavButtonView");
-                    field.setAccessible(true);
-                    ImageButton mNavButtonView = (ImageButton) field.get(toolbar);
-                    mNavButtonView.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        toolbar.post(() -> {
+            try {
+                Field field = Toolbar.class.getDeclaredField("mNavButtonView");
+                field.setAccessible(true);
+                ImageButton mNavButtonView = (ImageButton) field.get(toolbar);
+                mNavButtonView.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

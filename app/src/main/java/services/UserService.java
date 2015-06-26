@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public boolean createSession(String url) {
-        String token = null;
+        String token;
         try {
             token = url.substring(url.lastIndexOf("=") + 1);
         } catch (Exception exception) {

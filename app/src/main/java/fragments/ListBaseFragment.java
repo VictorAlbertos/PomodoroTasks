@@ -51,11 +51,7 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     }
 
     private void setUpRefreshLayout() {
-        prl_cards.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override public void onRefresh() {
-                populateCards(true);
-            }
-        });
+        prl_cards.setOnRefreshListener(() -> populateCards(true));
     }
 
     private void populateCards(final boolean refreshedByUser) {

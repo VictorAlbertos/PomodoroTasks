@@ -54,11 +54,9 @@ class PomodoroNotifications {
         final DoingCard doingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
         if (doingCard == null || doingCard.isPause()) return;
 
-        Runnable callback = new Runnable() {
-            @Override public void run() {
-                if (mApp.isAnyActivityRunning()) askToPresentDoingCardActivity(doingCard);
-                else showNotification(doingCard);
-            }
+        Runnable callback = () -> {
+            if (mApp.isAnyActivityRunning()) askToPresentDoingCardActivity(doingCard);
+            else showNotification(doingCard);
         };
 
         callbackOnlyIfCardStillExitsInTrello(doingCard.getId(), callback);

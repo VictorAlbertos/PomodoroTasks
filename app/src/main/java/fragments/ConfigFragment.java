@@ -54,11 +54,7 @@ public class ConfigFragment extends Fragment {
 
     private void setUpCivInputs() {
         civ_boards.setUp(board, select_board);
-        civ_boards.setListener(new ConfigInputView.Listener() {
-            @Override  public void onValueSelected(ConfigInputView configInputView, BaseModel baseModel) {
-                populateLists(baseModel);
-            }
-        });
+        civ_boards.setListener((configInputView, baseModel) -> populateLists(baseModel));
 
         civ_to_do.setUp(to_do_list, select_to_do_list);
         civ_doing.setUp(doing_list, select_doing_list);
