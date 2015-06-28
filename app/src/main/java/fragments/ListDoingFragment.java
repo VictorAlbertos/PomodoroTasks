@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.hacerapp.pomodorotasks.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
 
@@ -20,6 +21,11 @@ import utilities.notifications.ScheduleNotifications;
 
 @EFragment(R.layout.list_fragment)
 public class ListDoingFragment extends ListBaseFragment {
+
+    @AfterViews protected void initViews() {
+        super.initViews();
+    }
+
     @Override protected String getIdList() {
         return mUserService.getDoingList().getId();
     }

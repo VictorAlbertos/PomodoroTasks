@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.baoyz.widget.PullRefreshLayout;
 import com.hacerapp.pomodorotasks.R;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -37,7 +36,7 @@ public abstract class ListBaseFragment extends Fragment implements CardsRecycler
     @Bean protected UserService mUserService;
     @Bean protected CardsRecyclerViewAdapter adapter;
 
-    @AfterViews protected void initViews() {
+    protected void initViews() {
         EventBus.getDefault().register(this);
         setUpRecyclerView();
         setUpRefreshLayout();

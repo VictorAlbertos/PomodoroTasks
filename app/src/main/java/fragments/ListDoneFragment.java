@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
 
@@ -15,6 +16,10 @@ import models.Card;
 
 @EFragment(R.layout.list_fragment)
 public class ListDoneFragment extends ListBaseFragment {
+
+    @AfterViews protected void initViews() {
+        super.initViews();
+    }
 
     @Override public int getIdResource() {
         return R.layout.done_card_item;

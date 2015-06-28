@@ -7,9 +7,10 @@
     <color name="light_gray">#f3f3f3</color>
     <color name="white">#ffffff</color>
     <color name="white_translucent">#80ffffff</color>
-
+    <color name="turquoise">#00c5cd</color>
+    <color name="turquoise_dark">#009da4</color>
     <color name="background">@color/white</color>
     <color name="texts">@color/gray</color>
-    <color name="background_toast">@color/light_gray</color>
-    <color name="texts_toast">@color/red</color>
+    <color name="background_toast">@color/turquoise</color>
+    <color name="texts_toast">@color/white</color>
 </resources>

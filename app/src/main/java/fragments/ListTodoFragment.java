@@ -1,9 +1,13 @@
 package fragments;
 
 import com.hacerapp.pomodorotasks.R;
+import com.melnykov.fab.FloatingActionButton;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 
 import adapters.CardsRecyclerViewAdapter;
@@ -16,10 +20,20 @@ import retrofit.client.Response;
 import utilities.EventTask;
 import utilities.notifications.ScheduleNotifications;
 
-@EFragment(R.layout.list_fragment)
+@EFragment(R.layout.list_todo_fragment)
 public class ListTodoFragment extends ListBaseFragment {
+    @ViewById protected FloatingActionButton fab;
     @Bean protected ScheduleNotifications mScheduleNotifications;
     @StringRes protected String to_do_list, task_moved_to_doing_list, error_connection;
+
+    @AfterViews protected void initViews() {
+        super.initViews();
+        fab.attachToRecyclerView(rv_cards);
+    }
+
+    @Click protected void fab() {
+        mCustomToast.showErrorConnection();
+    }
 
     @Override protected String getIdList() {
         return mUserService.getToDoList().getId();
