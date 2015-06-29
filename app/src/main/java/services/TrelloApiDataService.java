@@ -80,6 +80,10 @@ public class TrelloApiDataService {
         mRestApi.deleteCard(idCard, trello_key, mUserService.getToken(), callback);
     }
 
+    public void createCard(String idList, String name, Callback<Card> callback) {
+        createCard(idList, name, "", callback);
+    }
+
     public void createCard(String idList, String name, String desc, Callback<Card> callback) {
         mRestApi.createCard(idList, name, desc, trello_key, mUserService.getToken(), "name", "idList", "desc", callback);
     }

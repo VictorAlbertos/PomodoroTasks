@@ -9,6 +9,7 @@
     <color name="white_translucent">#80ffffff</color>
     <color name="turquoise">#00c5cd</color>
     <color name="turquoise_dark">#009da4</color>
+
     <color name="background">@color/white</color>
     <color name="texts">@color/gray</color>
     <color name="background_toast">@color/turquoise</color>

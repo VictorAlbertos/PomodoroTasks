@@ -51,6 +51,8 @@
     <string name="what_next">What\'s next?</string>
     <string name="its_over">It\'s over</string>
     <string name="spent_time_added">__ added to already spent time</string>
-
+    <string name="add_todo_card">Add new card to todo list</string>
+    <string name="name_card">Name card</string>
+    <string name="task_added_to_todo_list">__ added to todo list!</string>
 </resources>
 

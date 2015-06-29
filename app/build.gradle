@@ -79,4 +79,5 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
 }

@@ -1,7 +1,12 @@
 package fragments;
 
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.hacerapp.pomodorotasks.R;
 import com.melnykov.fab.FloatingActionButton;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -19,12 +24,15 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import utilities.EventTask;
 import utilities.notifications.ScheduleNotifications;
+import utilities.ui.CustomAlert;
 
 @EFragment(R.layout.list_todo_fragment)
 public class ListTodoFragment extends ListBaseFragment {
     @ViewById protected FloatingActionButton fab;
     @Bean protected ScheduleNotifications mScheduleNotifications;
-    @StringRes protected String to_do_list, task_moved_to_doing_list, error_connection;
+    @Bean protected CustomAlert mCustomAlert;
+    @StringRes protected String to_do_list, task_moved_to_doing_list, error_connection, add_todo_card,
+                                    validation_empty_field, task_added_to_todo_list;
 
     @AfterViews protected void initViews() {
         super.initViews();
@@ -32,7 +40,45 @@ public class ListTodoFragment extends ListBaseFragment {
     }
 
     @Click protected void fab() {
-        mCustomToast.showErrorConnection();
+        ViewGroup root = (ViewGroup) View.inflate(getActivity(), R.layout.alert_add_todo_card, null);
+        final MaterialEditText ed_name = (MaterialEditText) root.findViewById(R.id.ed_name);
+
+        mCustomAlert.showTwoChoicesCustomView(getActivity(), add_todo_card, root, new MaterialDialog.ButtonCallback() {
+            @Override public void onPositive(MaterialDialog dialog) {
+                String cardName = ed_name.getText().toString();
+
+                if (cardName.isEmpty()) {
+                    ed_name.setError(validation_empty_field);
+                    return;
+                }
+
+                createNewCard(cardName);
+                dialog.dismiss();
+            }
+
+            @Override public void onNegative(MaterialDialog dialog) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void createNewCard(String name) {
+        prl_cards.setRefreshing(true);
+        String idList = mUserService.getToDoList().getId();
+
+        mApiDataService.createCard(idList, name, new Callback<Card>() {
+            @Override public void success(Card card, Response response) {
+                String message = task_added_to_todo_list.replaceFirst("__", card.getName());
+                mCustomToast.showToast(message);
+
+                EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
+            }
+
+            @Override public void failure(RetrofitError error) {
+                mCustomToast.showToast(error_connection);
+                prl_cards.setRefreshing(false);
+            }
+        });
     }
 
     @Override protected String getIdList() {
@@ -68,6 +114,11 @@ public class ListTodoFragment extends ListBaseFragment {
             }
         };
 
-        viewHolder.root.setOnClickListener(v -> mApiDataService.moveCardToDoingList(card, moveCallback));
+        viewHolder.root.setOnClickListener(
+            v -> {
+                mApiDataService.moveCardToDoingList(card, moveCallback);
+                prl_cards.setRefreshing(true);
+            }
+        );
     }
 }

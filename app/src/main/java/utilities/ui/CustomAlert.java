@@ -1,6 +1,7 @@
 package utilities.ui;
 
 import android.app.Activity;
+import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -25,7 +26,18 @@ public class CustomAlert {
                 .callback(callback)
                 .content(content)
                 .positiveText(agree)
-                .neutralText(disagree)
+                .negativeText(disagree)
+                .show();
+    }
+
+    public MaterialDialog showTwoChoicesCustomView(Activity activity, String title, View view, MaterialDialog.ButtonCallback callback) {
+        return new MaterialDialog.Builder(activity)
+                .title(title)
+                .autoDismiss(false)
+                .customView(view, true)
+                .callback(callback)
+                .positiveText(agree)
+                .negativeText(disagree)
                 .show();
     }
 }
