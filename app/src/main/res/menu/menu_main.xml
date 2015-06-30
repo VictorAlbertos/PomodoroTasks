@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/config"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        android:title="@string/config_account"
+        app:showAsAction="ifRoom" />
+</menu>

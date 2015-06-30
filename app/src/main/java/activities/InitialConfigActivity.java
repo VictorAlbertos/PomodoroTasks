@@ -1,28 +1,26 @@
 package activities;
 
-import android.view.MenuItem;
-
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.res.StringRes;
 
+import utilities.ui.CustomAlert;
+
 @EActivity(R.layout.config_activity)
-public class ConfigActivity extends BaseAppCompatActivity {
+public class InitialConfigActivity extends BaseAppCompatActivity {
+    @StringRes protected String welcome, info_config;
+    @Bean protected CustomAlert customAlert;
 
     @AfterViews protected void initViews() {
         super.init();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        customAlert.showOneChoice(this, welcome, info_config);
     }
 
     @StringRes protected String config_account;
     @Override protected String titleToolbar() {
         return config_account;
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) onBackPressed();
-        return super.onOptionsItemSelected(item);
     }
 }

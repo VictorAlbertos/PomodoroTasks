@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
@@ -18,13 +19,14 @@ import java.lang.reflect.Field;
 import utilities.PomodoroApp;
 
 @EActivity
-public class BaseAppCompatActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
     @ViewById protected Toolbar toolbar;
     @App protected PomodoroApp mApp;
+    @ViewById protected TextView tv_title;
 
     protected void init() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tv_title.setText(titleToolbar());
         hackDrawerTintColor();
     }
 
@@ -47,6 +49,8 @@ public class BaseAppCompatActivity extends AppCompatActivity {
         Activity currActivity = mApp.getCurrentActivity();
         if (currActivity != null && currActivity.equals(this)) mApp.setCurrentActivity(null);
     }
+
+    protected abstract String titleToolbar();
 
     @ColorRes(R.color.white) protected int color;
     private void hackDrawerTintColor() {

@@ -52,7 +52,6 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @Bean protected Sounds mSounds;
     @ViewById protected ViewGroup ll_active_action, ll_no_active_action;
     @ViewById protected ActionCountDownView tv_countdown;
-    @ViewById protected TextView tv_title;
     @ViewById protected Button bt_play_pause;
     @ViewById protected MaterialSpinner sp_actions;
     @ViewById protected ImageView iv_icon;
@@ -66,7 +65,7 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @AfterViews protected void initViews() {
         super.init();
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setUpSpinner();
         setUpCountDownListener();
@@ -101,7 +100,7 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         tv_countdown.bind(mDoingCard);
 
         mUserService.persistsChanges();
-        tv_title.setText(mDoingCard.getName());
+        super.tv_title.setText(mDoingCard.getName());
 
         String textButton = mDoingCard.isPause() ? play : pause;
         bt_play_pause.setText(textButton);
@@ -116,7 +115,6 @@ public class DoingCardActivity extends BaseAppCompatActivity {
         if (mDoingCard.isCurrentActionEnd()) {
             ll_active_action.setVisibility(View.GONE);
             ll_no_active_action.setVisibility(View.VISIBLE);
-
         } else {
             ll_active_action.setVisibility(View.VISIBLE);
             ll_no_active_action.setVisibility(View.GONE);
@@ -214,6 +212,10 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override protected String titleToolbar() {
+        return "";
     }
 
     public boolean isAlreadyPresent(DoingCard doingCard) {

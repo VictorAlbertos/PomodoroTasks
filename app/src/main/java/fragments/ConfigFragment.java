@@ -1,8 +1,6 @@
 package fragments;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
@@ -16,7 +14,7 @@ import org.androidannotations.annotations.res.StringRes;
 import java.util.List;
 
 import activities.ConfigActivity;
-import activities.MainActivity;
+import activities.InitialConfigActivity;
 import activities.MainActivity_;
 import custom_views.ConfigInputView;
 import de.greenrobot.event.EventBus;
@@ -38,16 +36,12 @@ public class ConfigFragment extends Fragment {
     @Bean protected CustomToast mCustomToast;
     @Bean protected Animations mAnimations;
     @Bean protected UserService mUserService;
-    @ViewById public Toolbar toolbar;
-    @ViewById protected TextView tv_title;
     @ViewById protected ConfigInputView civ_boards, civ_to_do, civ_doing, civ_done;
     @ViewById protected FButton bt_save;
-    @StringRes protected String config_account, board, select_board, to_do_list, select_to_do_list,
+    @StringRes protected String board, select_board, to_do_list, select_to_do_list,
             doing_list, select_doing_list, done_list, select_done_list, settings_saved;
 
     @AfterViews protected void initViews() {
-        tv_title.setText(config_account);
-
         setUpCivInputs();
         populateInputs();
     }
@@ -120,9 +114,9 @@ public class ConfigFragment extends Fragment {
         mUserService.configAccount(board, toDoList, doingList, doneList);
         mCustomToast.showToast(settings_saved);
 
-        if (getActivity() instanceof ConfigActivity)
+        if (getActivity() instanceof InitialConfigActivity)
             MainActivity_.intent(getActivity()).start();
-        else if (getActivity() instanceof MainActivity)
+        else if (getActivity() instanceof ConfigActivity)
             EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
     }
 }

@@ -57,7 +57,7 @@ public class LoginActivity extends FragmentActivity {
 
     private void attemptToPerformLogin(String url) {
         mApi.authUser(url, (message, success) -> {
-            if (success) ConfigActivity_.intent(LoginActivity.this).start();
+            if (success) InitialConfigActivity_.intent(LoginActivity.this).start();
             else customToast.showToast(message);
         });
     }

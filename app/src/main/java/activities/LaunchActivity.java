@@ -14,7 +14,7 @@ public class LaunchActivity extends FragmentActivity {
 
     @AfterInject protected void init() {
         if (!mUserService.isAuthenticate()) LoginActivity_.intent(this).start();
-        else if (!mUserService.isAccountConfigured()) ConfigActivity_.intent(this).start();
+        else if (!mUserService.isAccountConfigured()) InitialConfigActivity_.intent(this).start();
         else MainActivity_.intent(this).start();
     }
 

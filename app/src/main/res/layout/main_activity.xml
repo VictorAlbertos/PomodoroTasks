@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_up_panel"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="?attr/actionBarSize"
-    sothree:umanoParalaxOffset="@dimen/_100dp"
-    sothree:umanoShadowHeight="@dimen/_4dp">
+    android:orientation="vertical">
 
-    <!-- MAIN CONTENT -->
+    <include layout="@layout/app_bar" />
+
     <fragment
-        android:id="@+id/tabs_lists_fragment"
         android:name="fragments.TabsListsFragment_"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- SLIDING LAYOUT -->
-    <fragment
-        android:id="@+id/config_fragment"
-        android:name="fragments.ConfigFragment_"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+</LinearLayout>
 
-
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>

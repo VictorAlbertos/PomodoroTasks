@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/app_bar" />
-
     <com.astuetz.PagerSlidingTabStrip xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pst_lists"
         android:layout_width="match_parent"
