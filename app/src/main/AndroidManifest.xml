@@ -3,7 +3,7 @@
     package="com.hacerapp.pomodorotasks">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application
         android:name="utilities.PomodoroApp_"
@@ -15,7 +15,7 @@
             android:name="activities.LaunchActivity_"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,21 +24,22 @@
         <activity
             android:name="activities.LoginActivity_"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name="activities.InitialConfigActivity_"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name="activities.MainActivity_"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name="activities.ConfigActivity_"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="nosensor" />
         <activity
             android:name="activities.DoingCardActivity_"
-            android:screenOrientation="portrait" />
-        <receiver android:name="utilities.notifications.PomodoroBroadcastReceiver_"/>
+            android:screenOrientation="nosensor" />
+
+        <receiver android:name="utilities.notifications.PomodoroBroadcastReceiver_" />
     </application>
 
 </manifest>

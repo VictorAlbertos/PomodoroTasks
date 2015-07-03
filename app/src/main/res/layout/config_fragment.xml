@@ -42,20 +42,10 @@
                 android:layout_marginLeft="@dimen/_10dp"
                 android:layout_marginRight="@dimen/_10sp" />
 
-            <info.hoang8f.widget.FButton xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+            <info.hoang8f.widget.FButton
                 android:id="@+id/bt_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="@string/save"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                fbutton:buttonColor="@color/red"
-                fbutton:cornerRadius="@dimen/_3dp"
-                fbutton:shadowColor="@color/dark_red"
-                fbutton:shadowEnabled="true"
-                fbutton:shadowHeight="@dimen/_3dp" />
+                style="@style/button"
+                android:text="@string/save" />
 
         </LinearLayout>
     </ScrollView>

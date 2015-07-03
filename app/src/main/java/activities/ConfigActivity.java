@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hacerapp.pomodorotasks.R;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.res.StringRes;
@@ -21,8 +20,8 @@ public class ConfigActivity extends BaseAppCompatActivity {
     @Bean protected CustomAlert mCustomAlert;
     @StringRes protected String config_account, logout, ask_to_logout;
 
-    @AfterViews protected void initViews() {
-        super.init();
+    @Override protected void initViews() {
+        super.initViews();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

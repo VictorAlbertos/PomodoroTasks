@@ -16,7 +16,7 @@ public class CustomAlert {
         return new MaterialDialog.Builder(activity)
                 .title(title)
                 .content(content)
-                .neutralText(agree)
+                .positiveText(agree)
                 .show();
     }
 

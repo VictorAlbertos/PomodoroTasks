@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -24,7 +25,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     @App protected PomodoroApp mApp;
     @ViewById protected TextView tv_title;
 
-    protected void init() {
+    @AfterViews protected void initViews() {
         setSupportActionBar(toolbar);
         tv_title.setText(titleToolbar());
         hackDrawerTintColor();

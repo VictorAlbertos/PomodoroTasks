@@ -169,61 +169,13 @@
 
         <info.hoang8f.widget.FButton
             android:id="@+id/bt_spend_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif"
-            android:text="@string/spend_it"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:buttonColor="@color/red"
-            app:cornerRadius="@dimen/_3dp"
-            app:shadowColor="@color/dark_red"
-            app:shadowEnabled="true"
-            app:shadowHeight="@dimen/_3dp" />
-
-        <custom_views.ActionCountDownView_
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/its_over"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/texts"
-            android:textStyle="bold" />
-
-        <info.hoang8f.widget.FButton
-            android:id="@+id/bt_move_to_done_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/button"
             android:layout_marginTop="@dimen/_10dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/move_to_done_list"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:buttonColor="@color/red"
-            app:cornerRadius="@dimen/_3dp"
-            app:shadowColor="@color/dark_red"
-            app:shadowEnabled="true"
-            app:shadowHeight="@dimen/_3dp" />
+            android:text="@string/spend_it" />
 
-        <info.hoang8f.widget.FButton
-            android:id="@+id/bt_back_to_todo_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/back_to_todo_list"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:buttonColor="@color/red"
-            app:cornerRadius="@dimen/_3dp"
-            app:shadowColor="@color/dark_red"
-            app:shadowEnabled="true"
-            app:shadowHeight="@dimen/_3dp" />
+
+        <include layout="@layout/inc_doing_card_no_active_action" />
+
 
     </LinearLayout>
 

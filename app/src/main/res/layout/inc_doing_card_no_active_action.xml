@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/doing_card_no_active_action">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/its_over"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/texts"
+        android:textStyle="bold" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/bt_move_to_done_list"
+        style="@style/button"
+        android:layout_marginTop="@dimen/_10dp"
+        android:text="@string/move_to_done_list" />
+
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/bt_back_to_todo_list"
+        style="@style/button"
+        android:layout_marginTop="@dimen/_10dp"
+        android:text="@string/back_to_todo_list" />
+
+</merge>

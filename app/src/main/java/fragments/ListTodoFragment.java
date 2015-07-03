@@ -71,7 +71,7 @@ public class ListTodoFragment extends ListBaseFragment {
                 String message = task_added_to_todo_list.replaceFirst("__", card.getName());
                 mCustomToast.showToast(message);
 
-                EventBus.getDefault().post(EventTask.TABS_LISTS_UPDATE_DATA_SOURCE);
+                populateCards(false);
             }
 
             @Override public void failure(RetrofitError error) {

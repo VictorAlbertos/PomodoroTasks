@@ -62,8 +62,8 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     private DoingCard mDoingCard;
     private Type mActionType;
 
-    @AfterViews protected void initViews() {
-        super.init();
+    @Override protected void initViews() {
+        super.initViews();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
