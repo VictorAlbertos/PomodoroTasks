@@ -49,7 +49,7 @@
             android:fontFamily="sans-serif"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/red"
-            android:textStyle="italic|bold" />
+            android:textStyle="bold" />
     </LinearLayout>
 
 

@@ -53,7 +53,7 @@ public abstract class CountDownTimer {
     private final long mMillisInFuture;
 
     /**
-     * The interval in millis that the user receives callbacks
+     * The interval in millis that the mUser receives callbacks
      */
     private final long mCountdownInterval;
 
@@ -131,10 +131,10 @@ public abstract class CountDownTimer {
                     long lastTickStart = SystemClock.elapsedRealtime();
                     onTick(millisLeft);
 
-                    // take into account user's onTick taking time to execute
+                    // take into account mUser's onTick taking time to execute
                     long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
 
-                    // special case: user's onTick took more than interval to
+                    // special case: mUser's onTick took more than interval to
                     // complete, skip to next interval
                     while (delay < 0) delay += mCountdownInterval;
 

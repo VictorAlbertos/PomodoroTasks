@@ -74,11 +74,20 @@ public class UserService {
         return getUser().getDoneList();
     }
 
+    public boolean showRateThisAppIfApplicable() {
+        return mUser.showRateThisAppIfApplicable();
+    }
+
+    public void showRateThisAppIfApplicable(boolean show) {
+        mUser.showRateThisAppIfApplicable(show);
+        persistsChanges();
+    }
+
     private User mUser;
     private User getUser() {
         if (mUser != null) return mUser;
 
-        mUser = (User) mPersistence.JSONFromDisk(User.class, "user");
+        mUser = (User) mPersistence.JSONFromDisk(User.class, "mUser");
         if (mUser != null) return mUser;
 
         return mUser = new User();
@@ -113,7 +122,7 @@ public class UserService {
     }
 
     public boolean persistsChanges() {
-        return mPersistence.JSONToDisk(mUser, "user");
+        return mPersistence.JSONToDisk(mUser, "mUser");
     }
 }
 

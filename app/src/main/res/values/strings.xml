@@ -52,5 +52,10 @@
     <string name="task_added_to_todo_list">__ added to todo list!</string>
     <string name="logout">Logout</string>
     <string name="ask_to_logout">Are you sure you want to log out?</string>
+    <string name="rate_this_app_title">Rate this app</string>
+    <string name="rate_this_app_content">If you enjoy using this app, would you mind taking a moment to rate it?\nThanks for your support!</string>
+    <string name="rate_now">Rate now</string>
+    <string name="remind_me_later">Remind me later</string>
+    <string name="no_thanks">No, thanks</string>
 </resources>
 

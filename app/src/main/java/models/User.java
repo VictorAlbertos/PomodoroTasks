@@ -7,6 +7,7 @@ public class User {
     private Board board;
     private List toDoList, doingList, doneList;
     private java.util.List<DoingCard> doingCards = new ArrayList<>();
+    private boolean showRateThisAppIfApplicable = true;
 
     public String getToken() {
         return token;
@@ -54,5 +55,13 @@ public class User {
 
     public void setDoingCards(java.util.List<DoingCard> doingCards) {
         this.doingCards = doingCards;
+    }
+
+    public boolean showRateThisAppIfApplicable() {
+        return showRateThisAppIfApplicable;
+    }
+
+    public void showRateThisAppIfApplicable(boolean show) {
+        this.showRateThisAppIfApplicable = show;
     }
 }

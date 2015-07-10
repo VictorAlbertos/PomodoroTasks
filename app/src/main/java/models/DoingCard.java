@@ -134,7 +134,7 @@ public class DoingCard extends Card {
     }
 
     public static class Action {
-        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(5),
+        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(25),
                 DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(15),
                 DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(5);
 

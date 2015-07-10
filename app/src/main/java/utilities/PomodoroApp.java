@@ -10,6 +10,11 @@ public class PomodoroApp extends Application {
     //Tracking current activity to manage notifications
     private Activity mCurrentActivity = null;
 
+    @Override public void onCreate() {
+        super.onCreate();
+        //LeakCanary.install(this);
+    }
+
     public boolean isAnyActivityRunning(){
         return mCurrentActivity != null;
     }
