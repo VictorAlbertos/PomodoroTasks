@@ -28,7 +28,8 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="sans-serif"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/texts" />
+                android:textColor="@color/texts"
+                android:textStyle="italic" />
 
         </LinearLayout>
 

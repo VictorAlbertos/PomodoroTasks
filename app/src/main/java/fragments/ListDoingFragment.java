@@ -1,7 +1,5 @@
 package fragments;
 
-import android.widget.ImageView;
-
 import com.hacerapp.pomodorotasks.R;
 
 import org.androidannotations.annotations.AfterViews;
@@ -62,11 +60,9 @@ public class ListDoingFragment extends ListBaseFragment {
 
         final DoingCard doingCard = (DoingCard) candidate;
 
-        ActionCountDownView tv_time_running = (ActionCountDownView) viewHolder.root.findViewById(R.id.tv_time_running);
+        ActionCountDownView tv_time_running = (ActionCountDownView) viewHolder.root.findViewById(R.id.countdown_view);
         tv_time_running.bind(doingCard);
 
-        ImageView iv_icon = (ImageView) viewHolder.root.findViewById(R.id.iv_icon);
-        iv_icon.setImageResource(doingCard.getResourceIcon());
         viewHolder.root.setOnClickListener(v ->
                 DoingCardActivity_.intent(getActivity())
                 .extra(ScheduleNotifications.ID_CARD_DOING, doingCard.getId())

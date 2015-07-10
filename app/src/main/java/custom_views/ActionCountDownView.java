@@ -3,9 +3,15 @@ package custom_views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.androidannotations.annotations.EView;
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 
 import java.util.concurrent.TimeUnit;
@@ -13,15 +19,23 @@ import java.util.concurrent.TimeUnit;
 import models.DoingCard;
 import utilities.CountDownTimer;
 
-@EView
-public class ActionCountDownView extends TextView {
-    @StringRes protected String time_over, paused;
-    public ActionCountDownView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+@EViewGroup()
+public abstract class ActionCountDownView extends FrameLayout {
+    @StringRes protected String time_over;
+    @ViewById protected TextView tv_time_running;
+    @ViewById protected ImageView iv_icon;
+    @ViewById protected ProgressWheel pw_countdown, pw_countdown_base;
     private DoingCard mDoingCard;
     private CountDownTimer mCountDownTimer;
     private CountDownListener mCountDownListener;
+
+    @AfterViews protected void initViews() {
+        pw_countdown_base.setInstantProgress(1);
+    }
+
+    public ActionCountDownView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public void bind(DoingCard doingCar) {
         mDoingCard = doingCar;
@@ -33,9 +47,14 @@ public class ActionCountDownView extends TextView {
     }
 
     public void restartCountDown() {
-        if (mDoingCard.isPause()) showPauseMessage();
-        else if (mDoingCard.isCurrentActionEnd()) setText(time_over);
+        if (mDoingCard.isPaused()) showPauseMessage();
+        else if (mDoingCard.isCurrentActionEnd()) {
+            tv_time_running.setText(time_over);
+            pw_countdown.setInstantProgress(mDoingCard.getCurrentProgress());
+        }
         else setUpCountDown();
+
+        iv_icon.setImageResource(mDoingCard.getResourceIcon());
     }
 
     private void setUpCountDown() {
@@ -43,14 +62,18 @@ public class ActionCountDownView extends TextView {
 
         mCountDownTimer = new CountDownTimer(mDoingCard.getRemainingTimeInMilliseconds(), 1000) {
             @Override public void onTick(long millisUntilFinished) {
-                if (mDoingCard.isPause()) {
+                if (mDoingCard.isPaused()) {
                     showPauseMessage();
                     cancelCountDown();
-                } else ActionCountDownView.this.setText(getFormattedTime(millisUntilFinished));
+                } else {
+                    pw_countdown.setInstantProgress(mDoingCard.getCurrentProgress());
+                    tv_time_running.setText(getFormattedTime(millisUntilFinished));
+                }
             }
 
             @Override public void onFinish() {
-                ActionCountDownView.this.setText(time_over);
+                pw_countdown.setInstantProgress(mDoingCard.getCurrentProgress());
+                tv_time_running.setText(time_over);
                 if (mCountDownListener != null) mCountDownListener.onFinish();
             }
         }.start();
@@ -61,7 +84,8 @@ public class ActionCountDownView extends TextView {
     }
 
     private void showPauseMessage() {
-        setText(getFormattedTime(mDoingCard.getTimeRemainingAtPause()) + " " + paused);
+        pw_countdown.setInstantProgress(mDoingCard.getCurrentProgress());
+        tv_time_running.setText(getFormattedTime(mDoingCard.getTimeRemainingAtPause()));
     }
 
     private String getFormattedTime(long millisUntilFinished) {

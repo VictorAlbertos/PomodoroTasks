@@ -10,52 +10,30 @@
     card_view:cardCornerRadius="@dimen/_4dp"
     card_view:cardElevation="@dimen/_2dp">
 
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10dp">
 
-        <LinearLayout
-            android:id="@+id/ll_content"
-            android:layout_width="match_parent"
+        <custom_views.ActionCountDownViewSmall_
+            android:id="@+id/countdown_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/_10dp">
+            android:layout_marginRight="@dimen/_10dp" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_5dp"
-                android:fontFamily="sans-serif"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/texts" />
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/texts"
+            android:textStyle="italic" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iv_icon"
-                    android:layout_width="@dimen/_20dp"
-                    android:layout_height="@dimen/_20dp"
-                    android:layout_marginRight="@dimen/_10dp"
-                    android:src="@drawable/ic_pomodoro" />
-
-                <custom_views.ActionCountDownView_
-                    android:id="@+id/tv_time_running"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/texts"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

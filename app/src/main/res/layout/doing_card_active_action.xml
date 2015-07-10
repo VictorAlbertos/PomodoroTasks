@@ -1,38 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_active_action"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/vg_active_action"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/_10dp">
+    android:orientation="vertical">
+
+    <custom_views.ActionCountDownViewLarge_
+        android:id="@+id/countdown_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10dp"
-        android:gravity="center_vertical"
+        android:layout_below="@+id/tv_countdown"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_20dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/bt_play_pause"
+            style="@style/button_fancy"
             android:layout_marginRight="@dimen/_10dp"
-            android:src="@drawable/ic_pomodoro" />
+            app:fb_iconResource="@drawable/ic_play_arrow_white_24dp" />
 
-        <custom_views.ActionCountDownView_
-            android:id="@+id/tv_countdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:textColor="@color/texts"
-            android:textSize="@dimen/_25sp" />
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/bt_reset"
+            style="@style/button_fancy"
+            android:layout_marginLeft="@dimen/_10dp"
+            app:fb_iconResource="@drawable/ic_replay_white_24dp" />
 
     </LinearLayout>
 
 
-    <include layout="@layout/inc_buttons_doing_card_active_action" />
-
 </LinearLayout>
+
+

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red">#e22a33</color>
+    <color name="red">#e33250</color>
+    <color name="red_translucent">#80e33250</color>
+
     <color name="green">#4ceb48</color>
-    <color name="dark_red">#bc2a33</color>
+    <color name="dark_red">#c72c46</color>
     <color name="gray">#7f7f7f</color>
     <color name="light_gray">#f3f3f3</color>
     <color name="white">#ffffff</color>

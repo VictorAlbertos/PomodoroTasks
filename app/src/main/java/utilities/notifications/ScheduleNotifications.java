@@ -18,7 +18,7 @@ public class ScheduleNotifications {
     @App protected PomodoroApp mApp;
 
     public void setFor(DoingCard doingCard) {
-        if (doingCard.isPause() || doingCard.isCurrentActionEnd()) return;
+        if (doingCard.isPaused() || doingCard.isCurrentActionEnd()) return;
 
         Intent alertIntent = new Intent(mApp, PomodoroBroadcastReceiver_.class);
 

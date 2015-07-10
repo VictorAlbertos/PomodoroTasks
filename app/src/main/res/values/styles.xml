@@ -9,7 +9,7 @@
 
     <style name="button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:textAllCaps">true</item>
@@ -20,6 +20,19 @@
         <item name="shadowColor">@color/dark_red</item>
         <item name="shadowEnabled">true</item>
         <item name="shadowHeight">@dimen/_3dp</item>
+    </style>
+
+    <style name="button_fancy">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/_10dp</item>
+        <item name="fb_borderColor">@color/turquoise_dark</item>
+        <item name="cornerRadius">@dimen/_3dp</item>
+        <item name="fb_borderWidth">@dimen/_1dp</item>
+        <item name="fb_defaultColor">@color/turquoise</item>
+        <item name="fb_focusColor">@color/turquoise_dark</item>
+        <item name="fb_iconPosition">left</item>
+        <item name="fb_radius">@dimen/_5dp</item>
     </style>
 
 </resources>

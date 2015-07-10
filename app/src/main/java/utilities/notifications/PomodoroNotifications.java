@@ -52,7 +52,7 @@ class PomodoroNotifications {
         if (idDoingCard == null) return;
 
         final DoingCard doingCard = mUserService.isThisDoingCardStillValid(idDoingCard);
-        if (doingCard == null || doingCard.isPause()) return;
+        if (doingCard == null || doingCard.isPaused()) return;
 
         Runnable callback = () -> {
             if (mApp.isAnyActivityRunning()) askToPresentDoingCardActivity(doingCard);

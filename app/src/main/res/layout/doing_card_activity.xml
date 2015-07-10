@@ -6,26 +6,8 @@
 
     <include layout="@layout/app_bar" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:padding="@dimen/_10dp">
+    <include layout="@layout/doing_card_active_action" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <include layout="@layout/doing_card_no_active_action" />
 
-            <include layout="@layout/doing_card_active_action" />
-
-            <include layout="@layout/doing_card_no_active_action" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20dp" />
-
-        </LinearLayout>
-
-    </ScrollView>
 </LinearLayout>

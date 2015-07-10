@@ -11,7 +11,7 @@ public class DoingCard extends Card {
     private Action currentAction;
     private long timeRemainingWhenPaused;
     private long aggregatedSpentTime;
-    private boolean pause;
+    private boolean paused;
 
     public DoingCard(Card card){
         this.id = card.getId();
@@ -21,12 +21,12 @@ public class DoingCard extends Card {
     }
 
     public String resetCurrentAction() {
-        long remainingTime = isPause() ? getTimeRemainingAtPause() : getRemainingTimeInMilliseconds();
+        long remainingTime = isPaused() ? getTimeRemainingAtPause() : getRemainingTimeInMilliseconds();
         long spentTime = currentAction.getDuration() - remainingTime;
 
         aggregatedSpentTime += spentTime;
         currentAction.setStartTimeStamp(System.currentTimeMillis());
-        pause = false;
+        paused = false;
 
         return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(spentTime) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(spentTime) % TimeUnit.MINUTES.toSeconds(1));
@@ -38,17 +38,17 @@ public class DoingCard extends Card {
     }
 
     public boolean isCurrentActionEnd() {
-        if (isPause()) return false;
+        if (isPaused()) return false;
         return getRemainingTimeInMilliseconds() <= 0;
     }
 
-    public boolean isPause() {
-        return pause;
+    public boolean isPaused() {
+        return paused;
     }
 
     public void setPause(boolean pause) {
-        this.pause = pause;
-        if (this.pause) {
+        this.paused = pause;
+        if (this.paused) {
             timeRemainingWhenPaused = getRemainingTimeInMilliseconds();
         } else {
             long delta = currentAction.getDuration() - timeRemainingWhenPaused;
@@ -97,7 +97,7 @@ public class DoingCard extends Card {
     public void addNewAction(Action.Type type) {
         currentAction = new Action(type);
         actions.add(currentAction);
-        pause = false;
+        paused = false;
     }
 
     private int getNTimes(Action.Type type) {
@@ -118,13 +118,23 @@ public class DoingCard extends Card {
     }
 
     public int getResourceIcon() {
-        if (getType() == DoingCard.Action.Type.Pomodoro) return R.drawable.ic_pomodoro;
-        if (getType() == DoingCard.Action.Type.LongBreak) return R.drawable.ic_break;
-        return R.drawable.ic_break;
+        if (getType() == DoingCard.Action.Type.Pomodoro && !isPaused()) return R.drawable.ic_pomodoro;
+        if (getType() == DoingCard.Action.Type.Pomodoro) return R.drawable.ic_pomodoro_pause;
+        if (getType() == DoingCard.Action.Type.LongBreak && !isPaused()) return R.drawable.ic_break;
+        if (getType() == DoingCard.Action.Type.LongBreak) return R.drawable.ic_break_pause;
+        if (!isPaused()) return R.drawable.ic_break;
+        return R.drawable.ic_break_pause;
+    }
+
+    public float getCurrentProgress() {
+        long remainingTime = isPaused() ? timeRemainingWhenPaused : getRemainingTimeInMilliseconds();
+        float delta = ((currentAction.getDuration() - remainingTime) * 100) / currentAction.getDuration();
+        float validDelta = delta / 100 <= 1 ? delta / 100 : 1;
+        return validDelta;
     }
 
     public static class Action {
-        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(25),
+        private final static long DURATION_POMODORO = TimeUnit.MINUTES.toMillis(5),
                 DURATION_LONG_BREAK = TimeUnit.MINUTES.toMillis(15),
                 DURATION_SHORT_BREAK = TimeUnit.MINUTES.toMillis(5);
 
@@ -168,5 +178,4 @@ public class DoingCard extends Card {
             Pomodoro, ShortBreak, LongBreak;
         }
     }
-
 }

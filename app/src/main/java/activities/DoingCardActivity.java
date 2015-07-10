@@ -5,13 +5,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hacerapp.pomodorotasks.R;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -23,6 +20,7 @@ import custom_views.ActionCountDownView;
 import de.greenrobot.event.EventBus;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import info.hoang8f.widget.FButton;
+import mehdi.sakout.fancybuttons.FancyButton;
 import models.Card;
 import models.DoingCard;
 import retrofit.Callback;
@@ -50,14 +48,13 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     @Bean protected UserService mUserService;
     @Bean protected Animations mAnimations;
     @Bean protected Sounds mSounds;
-    @ViewById protected ViewGroup ll_active_action, ll_no_active_action;
-    @ViewById protected ActionCountDownView tv_countdown;
-    @ViewById protected Button bt_play_pause;
+    @ViewById protected ViewGroup vg_no_active_action, vg_active_action;
+    @ViewById protected ActionCountDownView countdown_view;
+    @ViewById protected FancyButton bt_play_pause;
     @ViewById protected MaterialSpinner sp_actions;
-    @ViewById protected ImageView iv_icon;
     @ViewById protected TextView tv_n_spent_time, tv_n_pomodoros, tv_n_long_breaks, tv_n_short_breaks;
     @ViewById protected FButton bt_spend_action;
-    @StringRes protected String play, pause, task_moved_to_done_list, task_moved_to_todo_list,
+    @StringRes protected String task_moved_to_done_list, task_moved_to_todo_list,
                                     error_connection, validation_empty_field, spent_time_added;
     private DoingCard mDoingCard;
     private Type mActionType;
@@ -90,39 +87,38 @@ public class DoingCardActivity extends BaseAppCompatActivity {
     }
 
     private void setUpCountDownListener() {
-        tv_countdown.setCountDownListener(() -> {
+        countdown_view.setCountDownListener(() -> {
             update();
             mSounds.play(R.raw.alarm_sound);
         });
     }
 
     private void update() {
-        tv_countdown.bind(mDoingCard);
+        countdown_view.bind(mDoingCard);
 
         mUserService.persistsChanges();
         super.tv_title.setText(mDoingCard.getName());
 
-        String textButton = mDoingCard.isPause() ? play : pause;
-        bt_play_pause.setText(textButton);
+        int resImage = mDoingCard.isPaused() ? R.drawable.ic_play_arrow_white_24dp : R.drawable.ic_pause_white_24dp;
+        bt_play_pause.setIconResource(resImage);
 
         tv_n_spent_time.setText(mDoingCard.getSpentTime());
         tv_n_pomodoros.setText(mDoingCard.getNPomodoros());
         tv_n_long_breaks.setText(mDoingCard.getNLongBreaks());
         tv_n_short_breaks.setText(mDoingCard.getNShortBreaks());
 
-        iv_icon.setImageResource(mDoingCard.getResourceIcon());
 
         if (mDoingCard.isCurrentActionEnd()) {
-            ll_active_action.setVisibility(View.GONE);
-            ll_no_active_action.setVisibility(View.VISIBLE);
+            vg_active_action.setVisibility(View.GONE);
+            vg_no_active_action.setVisibility(View.VISIBLE);
         } else {
-            ll_active_action.setVisibility(View.VISIBLE);
-            ll_no_active_action.setVisibility(View.GONE);
+            vg_active_action.setVisibility(View.VISIBLE);
+            vg_no_active_action.setVisibility(View.GONE);
         }
     }
 
     @Click protected void bt_play_pause() {
-        mDoingCard.setPause(!mDoingCard.isPause());
+        mDoingCard.setPause(!mDoingCard.isPaused());
         update();
     }
 
@@ -200,12 +196,12 @@ public class DoingCardActivity extends BaseAppCompatActivity {
 
     @Override protected void onPause() {
         mScheduleNotifications.setFor(mDoingCard);
-        tv_countdown.cancelCountDown();
+        countdown_view.cancelCountDown();
         super.onPause();
     }
 
     @Override protected void onResume() {
-        tv_countdown.restartCountDown();
+        countdown_view.restartCountDown();
         super.onResume();
     }
 
